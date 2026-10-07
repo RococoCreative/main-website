@@ -1,0 +1,24 @@
+/* Forest hairline in place of the gold quote rule (gold budget: one flourish per page). */
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-heading);
+}
+
+.note {
+  max-width: 60ch;
+}
+
+.body .link {
+}
+
+/* Desktop: the label sits on the same rule as the quote, Swiss style. */
+@media (min-width: 1024px) {
+  .label {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-heading);
+  }
+}

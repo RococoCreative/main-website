@@ -1,0 +1,104 @@
+.hero {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.grid {
+  padding-block: clamp(var(--space-7), 7vw, var(--space-9)) clamp(var(--space-8), 8vw, var(--space-10));
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+/* Keeps "AI-driven" whole in the eyebrow; it otherwise breaks at the hyphen on phones. */
+.nowrap {
+  white-space: nowrap;
+}
+
+/* Larger than the interior H1 by design (home hero statement only). */
+.title {
+  font-size: var(--text-display);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+}
+
+.lead {
+  max-width: 50ch;
+  font-size: var(--text-lead);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* Who we serve: a quiet mono row under a hairline. */
+.serve {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-self: stretch;
+  margin-top: var(--space-2);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.serveLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  line-height: 1.4;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.serveList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  letter-spacing: 0.01em;
+  color: var(--color-text-muted);
+}
+
+.serveList li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Decorative square marker; carries no text, so nothing is announced. */
+.serveList li::before {
+  content: "";
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--color-border-strong);
+}
+
+.visual {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .visual {
+    max-width: 34rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .visual {
+    max-width: none;
+  }
+}

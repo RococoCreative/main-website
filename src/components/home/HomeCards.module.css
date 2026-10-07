@@ -1,0 +1,37 @@
+/* Shared card grid for selected work and insights. Column count follows the
+   number of items so one or two cards never leave a lopsided empty track. */
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-7) var(--grid-gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards > li {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cards > li > * {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cards[data-count="1"] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: calc((100% - var(--grid-gutter) * 11) / 12 * 8 + var(--grid-gutter) * 7);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cards[data-count="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
