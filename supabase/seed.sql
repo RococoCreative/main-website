@@ -1,62 +1,36 @@
-/**
- * Local fallback content.
- *
- * Used when Supabase environment variables are not set (local development,
- * CI, or a preview without credentials). The same entries are written to
- * supabase/seed.sql by `npm run db:seed-sql`, so a fresh Supabase project
- * starts with identical starter content.
- *
- * Blog articles are complete, publishable drafts for Rococo Creative to review.
- * Case studies and testimonials are STRUCTURAL PLACEHOLDERS: every client name,
- * quote, and metric is marked TODO and must be replaced with real, approved
- * facts before launch. Nothing here should be presented as a real result.
- *
- * Runtime constraint: scripts/generate-seed.ts imports this file with Node's
- * built-in type stripping, which cannot resolve the "@/" path alias. Keep every
- * runtime import relative (or inline it, as with the reading-time helpers
- * below). "import type" lines are erased, so aliases are fine there.
- */
+-- =============================================================================
+-- Rococo Creative: starter content
+--
+-- GENERATED FILE. Do not edit by hand.
+--   Source:      src/content/fallback.ts
+--   Regenerate:  npm run db:seed-sql   (scripts/generate-seed.ts)
+--
+-- Run it AFTER the schema migration (supabase/migrations/20261007000000_init.sql):
+--   * Supabase dashboard: SQL Editor > New query, paste this whole file, Run.
+--   * Supabase CLI with a local stack: npx supabase db reset
+--     (re-creates the LOCAL database, applies migrations, then runs this file).
+--     Never reset a linked production project: it deletes all data.
+--
+-- What it does (one transaction; safe to run more than once)
+--   * Blog posts and case studies are upserted by slug. Re-running OVERWRITES
+--     rows with these slugs, including edits made in the dashboard.
+--   * Placeholder testimonials (quote beginning with 'TODO:') are deleted and
+--     re-inserted, linked to their case study by slug.
+--   * Everything is inserted as published so a new project matches the local
+--     fallback content. Case studies and testimonials are PLACEHOLDERS: replace
+--     them with real, approved content (or set status = 'draft') before launch.
+-- =============================================================================
 
-import type { CaseStudy, Post, Testimonial } from "@/lib/types";
+begin;
 
-/* Mirrors src/lib/reading-time.ts (inlined so this file has no runtime alias imports). */
-const WORDS_PER_MINUTE = 225;
-
-function minutesFromWords(words: number): number {
-  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
-}
-
-function estimateReadingMinutes(markdown: string): number {
-  return minutesFromWords(markdown.split(/\s+/).filter(Boolean).length);
-}
-
-type PostInput = Omit<Post, "readingMinutes">;
-
-function post(input: PostInput): Post {
-  return { ...input, readingMinutes: estimateReadingMinutes(input.body) };
-}
-
-/* =============================================================================
- * Blog posts
- * ========================================================================== */
-
-export const fallbackPosts: Post[] = [
-  post({
-    slug: "your-website-is-a-bid-package",
-    title: "Your website is a bid package. Treat it like one.",
-    excerpt:
-      "Owners, developers, and architects read your website the way you read a set of drawings: looking for evidence that you are organized, capable, and safe to hire. Here is what they look for, and a checklist to test your own.",
-    coverImageUrl: null,
-    coverImageAlt: null,
-    authorName: "Rococo Creative",
-    authorRole: null,
-    tags: ["Strategy", "Websites"],
-    seoTitle: "Your construction website is a bid package",
-    seoDescription:
-      "How owners and architects review a contractor's website before shortlisting, what a credible construction website contains, and a checklist to test yours.",
-    publishedAt: "2026-09-15T14:00:00.000Z",
-    updatedAt: "2026-09-15T14:00:00.000Z",
-    body: `Before an owner calls you, they have already reviewed you. Long before a prequalification form or a request for qualifications, someone on the owner's side has typed your company name into a search bar and opened your website. That visit is quiet. You will not know it happened, and you will not get a second chance to make it count.
+-- Blog posts (3)
+insert into public.posts (
+  slug, title, excerpt, body, cover_image_url, cover_image_alt, author_name, author_role, tags, reading_minutes, seo_title, seo_description, status, published_at, created_at, updated_at
+) values (
+  'your-website-is-a-bid-package',
+  'Your website is a bid package. Treat it like one.',
+  'Owners, developers, and architects read your website the way you read a set of drawings: looking for evidence that you are organized, capable, and safe to hire. Here is what they look for, and a checklist to test your own.',
+  $rococo_md$Before an owner calls you, they have already reviewed you. Long before a prequalification form or a request for qualifications, someone on the owner's side has typed your company name into a search bar and opened your website. That visit is quiet. You will not know it happened, and you will not get a second chance to make it count.
 
 Owners, developers, and architects read your website the way you read a set of drawings. They look for completeness, for consistency, and for evidence that the people behind it are organized. Give the site the same care you give a bid package, because in practice that is how it gets used.
 
@@ -150,24 +124,42 @@ When an inquiry does arrive, what happens in the next hour matters as much as th
 
 ## A second set of eyes
 
-It is hard to read your own website the way a stranger does. If you would like an outside review written from the owner's side of the table, we are glad to talk it through. [Discuss a project](/contact) with us, and we will tell you plainly what we would fix first.`,
-  }),
-  post({
-    slug: "speed-to-lead-the-first-hour",
-    title: "Speed to lead: what happens in the first hour after an inquiry",
-    excerpt:
-      "Good work is often lost before the first conversation. How to map what happens to your inquiries today, build a response system that works after hours, and use AI where it helps while people stay in the loop.",
-    coverImageUrl: null,
-    coverImageAlt: null,
-    authorName: "Rococo Creative",
-    authorRole: null,
-    tags: ["AI & automation", "Lead generation"],
-    seoTitle: "Speed to lead: the first hour after an inquiry",
-    seoDescription:
-      "Why construction inquiries go stale, how to build a response system that works after hours, where AI helps, and how to measure response time and win rate.",
-    publishedAt: "2026-08-25T14:00:00.000Z",
-    updatedAt: "2026-08-25T14:00:00.000Z",
-    body: `An inquiry is a perishable asset. The moment an owner submits a form or leaves a voicemail, they are paying attention to their project and, often, to more than one contractor. That attention fades quickly. A reply that arrives the next afternoon lands after they have already spoken to someone else, or after the urgency that prompted them to reach out has passed.
+It is hard to read your own website the way a stranger does. If you would like an outside review written from the owner's side of the table, we are glad to talk it through. [Discuss a project](/contact) with us, and we will tell you plainly what we would fix first.$rococo_md$,
+  null,
+  null,
+  'Rococo Creative',
+  null,
+  ARRAY['Strategy', 'Websites']::text[],
+  null,
+  'Your construction website is a bid package',
+  'How owners and architects review a contractor''s website before shortlisting, what a credible construction website contains, and a checklist to test yours.',
+  'published',
+  '2026-09-15T14:00:00.000Z'::timestamptz,
+  '2026-09-15T14:00:00.000Z'::timestamptz,
+  '2026-09-15T14:00:00.000Z'::timestamptz
+)
+on conflict (slug) do update set
+  title = excluded.title,
+  excerpt = excluded.excerpt,
+  body = excluded.body,
+  cover_image_url = excluded.cover_image_url,
+  cover_image_alt = excluded.cover_image_alt,
+  author_name = excluded.author_name,
+  author_role = excluded.author_role,
+  tags = excluded.tags,
+  reading_minutes = excluded.reading_minutes,
+  seo_title = excluded.seo_title,
+  seo_description = excluded.seo_description,
+  status = excluded.status,
+  published_at = excluded.published_at;
+
+insert into public.posts (
+  slug, title, excerpt, body, cover_image_url, cover_image_alt, author_name, author_role, tags, reading_minutes, seo_title, seo_description, status, published_at, created_at, updated_at
+) values (
+  'speed-to-lead-the-first-hour',
+  'Speed to lead: what happens in the first hour after an inquiry',
+  'Good work is often lost before the first conversation. How to map what happens to your inquiries today, build a response system that works after hours, and use AI where it helps while people stay in the loop.',
+  $rococo_md$An inquiry is a perishable asset. The moment an owner submits a form or leaves a voicemail, they are paying attention to their project and, often, to more than one contractor. That attention fades quickly. A reply that arrives the next afternoon lands after they have already spoken to someone else, or after the urgency that prompted them to reach out has passed.
 
 Many contractors lose these opportunities not on price or capability, but in the gap between the inquiry and the first real conversation. That gap is a process problem, and process problems can be fixed without adding headcount.
 
@@ -251,24 +243,42 @@ A faster response pays off only when the inquiry was a good one to begin with. F
 
 ## Talk it through
 
-If you would like help mapping your current process or designing a response system that fits how your team works, we are glad to talk. [Discuss a project](/contact) with us, and we will start by looking at what happens to your inquiries today.`,
-  }),
-  post({
-    slug: "local-search-for-contractors",
-    title: "Local search for contractors: a field guide",
-    excerpt:
-      "How owners search for builders in your market, and the fundamentals that decide whether they find you: your Google Business Profile, reviews, service and location pages, consistent listings, and tracking that ties search to real work.",
-    coverImageUrl: null,
-    coverImageAlt: null,
-    authorName: "Rococo Creative",
-    authorRole: null,
-    tags: ["SEO", "Lead generation"],
-    seoTitle: "Local SEO for contractors: a field guide",
-    seoDescription:
-      "How owners search for builders: Google Business Profile basics, reviews, service and location pages, consistent listings, call tracking, and timelines.",
-    publishedAt: "2026-08-04T14:00:00.000Z",
-    updatedAt: "2026-08-04T14:00:00.000Z",
-    body: `Search is where many construction projects begin, including the ones that start with a referral. An owner who hears your name from an architect will still look you up before calling. A facilities manager with an urgent need will search for a trade and a city, then call one of the first credible names.
+If you would like help mapping your current process or designing a response system that fits how your team works, we are glad to talk. [Discuss a project](/contact) with us, and we will start by looking at what happens to your inquiries today.$rococo_md$,
+  null,
+  null,
+  'Rococo Creative',
+  null,
+  ARRAY['AI & automation', 'Lead generation']::text[],
+  null,
+  'Speed to lead: the first hour after an inquiry',
+  'Why construction inquiries go stale, how to build a response system that works after hours, where AI helps, and how to measure response time and win rate.',
+  'published',
+  '2026-08-25T14:00:00.000Z'::timestamptz,
+  '2026-08-25T14:00:00.000Z'::timestamptz,
+  '2026-08-25T14:00:00.000Z'::timestamptz
+)
+on conflict (slug) do update set
+  title = excluded.title,
+  excerpt = excluded.excerpt,
+  body = excluded.body,
+  cover_image_url = excluded.cover_image_url,
+  cover_image_alt = excluded.cover_image_alt,
+  author_name = excluded.author_name,
+  author_role = excluded.author_role,
+  tags = excluded.tags,
+  reading_minutes = excluded.reading_minutes,
+  seo_title = excluded.seo_title,
+  seo_description = excluded.seo_description,
+  status = excluded.status,
+  published_at = excluded.published_at;
+
+insert into public.posts (
+  slug, title, excerpt, body, cover_image_url, cover_image_alt, author_name, author_role, tags, reading_minutes, seo_title, seo_description, status, published_at, created_at, updated_at
+) values (
+  'local-search-for-contractors',
+  'Local search for contractors: a field guide',
+  'How owners search for builders in your market, and the fundamentals that decide whether they find you: your Google Business Profile, reviews, service and location pages, consistent listings, and tracking that ties search to real work.',
+  $rococo_md$Search is where many construction projects begin, including the ones that start with a referral. An owner who hears your name from an architect will still look you up before calling. A facilities manager with an urgent need will search for a trade and a city, then call one of the first credible names.
 
 Local search decides whether you appear in those moments, and whether you look worth calling when you do. It is less mysterious than it seems. A handful of fundamentals, done well and kept up, matter more than any trick.
 
@@ -379,49 +389,47 @@ Then keep going: new projects, new photos, and new reviews every month.
 
 ## A conversation, not a pitch
 
-If you would like a clear read on how your company shows up in local search today, and what to fix first, we would be glad to help. [Discuss a project](/contact) with us, and we will start with what owners in your market see when they look you up.`,
-  }),
-];
+If you would like a clear read on how your company shows up in local search today, and what to fix first, we would be glad to help. [Discuss a project](/contact) with us, and we will start with what owners in your market see when they look you up.$rococo_md$,
+  null,
+  null,
+  'Rococo Creative',
+  null,
+  ARRAY['SEO', 'Lead generation']::text[],
+  null,
+  'Local SEO for contractors: a field guide',
+  'How owners search for builders: Google Business Profile basics, reviews, service and location pages, consistent listings, call tracking, and timelines.',
+  'published',
+  '2026-08-04T14:00:00.000Z'::timestamptz,
+  '2026-08-04T14:00:00.000Z'::timestamptz,
+  '2026-08-04T14:00:00.000Z'::timestamptz
+)
+on conflict (slug) do update set
+  title = excluded.title,
+  excerpt = excluded.excerpt,
+  body = excluded.body,
+  cover_image_url = excluded.cover_image_url,
+  cover_image_alt = excluded.cover_image_alt,
+  author_name = excluded.author_name,
+  author_role = excluded.author_role,
+  tags = excluded.tags,
+  reading_minutes = excluded.reading_minutes,
+  seo_title = excluded.seo_title,
+  seo_description = excluded.seo_description,
+  status = excluded.status,
+  published_at = excluded.published_at;
 
-/* =============================================================================
- * Case studies (PLACEHOLDER SCAFFOLDS)
- *
- * Each Markdown section is a writing template: replace the TODO line and the
- * prompts with the finished story. Subheadings use "###" because the case
- * study page supplies the Challenge / Approach / Outcome headings. Approach
- * sections follow the four-phase method in src/content/method.ts.
- * Metric values stay "TODO" until a verified figure exists; each note says
- * what to measure and over what period.
- * ========================================================================== */
-
-export const fallbackCaseStudies: CaseStudy[] = [
-  {
-    slug: "commercial-gc-brand-and-website",
-    clientName: "TODO: Client name",
-    title: "Brand and website for a commercial general contractor",
-    summary:
-      "TODO: In one or two sentences, who the client is, the business problem, and the verified result. Placeholder structure only.",
-    sector: "Commercial general contractor",
-    location: "TODO: City, State",
-    services: ["Positioning & messaging", "Brand identity", "Website"],
-    metrics: [
-      {
-        label: "Qualified inquiries",
-        value: "TODO",
-        note: "TODO: Count inquiries that fit the target project profile. Compare the 6 months after launch with the 6 months before.",
-      },
-      {
-        label: "Average project size",
-        value: "TODO",
-        note: "TODO: Average contract value of new awards. Compare the 12 months after launch with the 12 months before.",
-      },
-    ],
-    coverImageUrl: null,
-    coverImageAlt: null,
-    year: null,
-    featured: true,
-    publishedAt: "2026-09-01T14:00:00.000Z",
-    challenge: `**TODO:** Describe the starting point in the client's words. What was the business problem, not the marketing problem?
+-- Case studies (3): PLACEHOLDERS
+insert into public.case_studies (
+  slug, client_name, title, summary, sector, location, services, challenge, approach, outcome, metrics, cover_image_url, cover_image_alt, website_url, year, featured, sort_order, status, published_at, created_at, updated_at
+) values (
+  'commercial-gc-brand-and-website',
+  'TODO: Client name',
+  'Brand and website for a commercial general contractor',
+  'TODO: In one or two sentences, who the client is, the business problem, and the verified result. Placeholder structure only.',
+  'Commercial general contractor',
+  'TODO: City, State',
+  ARRAY['Positioning & messaging', 'Brand identity', 'Website']::text[],
+  $rococo_md$**TODO:** Describe the starting point in the client's words. What was the business problem, not the marketing problem?
 
 - What work did the company want more of (sector, project size, delivery method), and what was it winning instead?
 - Where were opportunities being lost: not invited to bid, not shortlisted, or losing at interview?
@@ -429,8 +437,8 @@ export const fallbackCaseStudies: CaseStudy[] = [
 - What had already been tried, and why did it fall short?
 - What constraints shaped the work: budget, an upcoming pursuit, internal capacity, brand equity worth keeping?
 
-Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the client has signed off.`,
-    approach: `**TODO:** Describe what Rococo did and why, in the order it happened. Tie each decision back to the challenge.
+Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the client has signed off.$rococo_md$,
+  $rococo_md$**TODO:** Describe what Rococo did and why, in the order it happened. Tie each decision back to the challenge.
 
 ### Survey: audit
 
@@ -450,45 +458,58 @@ Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the clie
 
 - What ongoing work followed launch, if any?
 
-Credit the client's team where they did the work. Add two or three images with alt text, such as a before and after, a project page, or a jobsite application.`,
-    outcome: `**TODO:** Describe verified results only. Every figure needs a source, a time period, and a comparison, and the client must approve it in writing.
+Credit the client's team where they did the work. Add two or three images with alt text, such as a before and after, a project page, or a jobsite application.$rococo_md$,
+  $rococo_md$**TODO:** Describe verified results only. Every figure needs a source, a time period, and a comparison, and the client must approve it in writing.
 
 - Business results first: invitations to bid, shortlists, interviews won, average project size, sector mix.
 - Marketing measures second, and only where they explain a business result: qualified inquiries, site visits, search visibility.
 - What did the client's team, prospective clients, or design partners say about the change? Approved quotes only.
 - What is still in progress, and what comes next?
 
-Match these results to the metrics listed for this case study. If a result cannot be verified, leave it out.`,
-    websiteUrl: null,
-    updatedAt: "2026-09-01T14:00:00.000Z",
-  },
-  {
-    slug: "design-build-lead-system",
-    clientName: "TODO: Client name",
-    title: "Lead response and CRM system for a design-build firm",
-    summary:
-      "TODO: In one or two sentences, who the client is, the business problem, and the verified result. Placeholder structure only.",
-    sector: "Design-build firm",
-    location: "TODO: City, State",
-    services: ["CRM & automation", "Paid search", "Reporting"],
-    metrics: [
-      {
-        label: "Median response time",
-        value: "TODO",
-        note: "TODO: Median time from inquiry to first personal reply, from the CRM. Compare the 90 days after launch with the 90 days before.",
-      },
-      {
-        label: "Consultations booked",
-        value: "TODO",
-        note: "TODO: Consultations or site visits booked from qualified inquiries. Compare the 6 months after launch with the 6 months before.",
-      },
-    ],
-    coverImageUrl: null,
-    coverImageAlt: null,
-    year: null,
-    featured: true,
-    publishedAt: "2026-08-12T14:00:00.000Z",
-    challenge: `**TODO:** Describe the starting point in the client's words. What was the business problem, not the marketing problem?
+Match these results to the metrics listed for this case study. If a result cannot be verified, leave it out.$rococo_md$,
+  '[{"label":"Qualified inquiries","value":"TODO","note":"TODO: Count inquiries that fit the target project profile. Compare the 6 months after launch with the 6 months before."},{"label":"Average project size","value":"TODO","note":"TODO: Average contract value of new awards. Compare the 12 months after launch with the 12 months before."}]'::jsonb,
+  null,
+  null,
+  null,
+  null,
+  true,
+  10,
+  'published',
+  '2026-09-01T14:00:00.000Z'::timestamptz,
+  '2026-09-01T14:00:00.000Z'::timestamptz,
+  '2026-09-01T14:00:00.000Z'::timestamptz
+)
+on conflict (slug) do update set
+  client_name = excluded.client_name,
+  title = excluded.title,
+  summary = excluded.summary,
+  sector = excluded.sector,
+  location = excluded.location,
+  services = excluded.services,
+  challenge = excluded.challenge,
+  approach = excluded.approach,
+  outcome = excluded.outcome,
+  metrics = excluded.metrics,
+  cover_image_url = excluded.cover_image_url,
+  cover_image_alt = excluded.cover_image_alt,
+  website_url = excluded.website_url,
+  year = excluded.year,
+  featured = excluded.featured,
+  sort_order = excluded.sort_order,
+  status = excluded.status,
+  published_at = excluded.published_at;
+
+insert into public.case_studies (
+  slug, client_name, title, summary, sector, location, services, challenge, approach, outcome, metrics, cover_image_url, cover_image_alt, website_url, year, featured, sort_order, status, published_at, created_at, updated_at
+) values (
+  'design-build-lead-system',
+  'TODO: Client name',
+  'Lead response and CRM system for a design-build firm',
+  'TODO: In one or two sentences, who the client is, the business problem, and the verified result. Placeholder structure only.',
+  'Design-build firm',
+  'TODO: City, State',
+  ARRAY['CRM & automation', 'Paid search', 'Reporting']::text[],
+  $rococo_md$**TODO:** Describe the starting point in the client's words. What was the business problem, not the marketing problem?
 
 - How were inquiries handled before: which channels, who answered, and how long replies took (measured, not estimated)?
 - What was being lost: unanswered inquiries, slow follow-up, unknown lead sources, no record of outcomes?
@@ -496,8 +517,8 @@ Match these results to the metrics listed for this case study. If a result canno
 - What had already been tried, such as an answering service, a shared inbox, or a CRM nobody used?
 - What constraints shaped the work: team size, existing software, sales process, seasonality?
 
-Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the client has signed off.`,
-    approach: `**TODO:** Describe what Rococo did and why, in the order it happened. Tie each decision back to the challenge.
+Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the client has signed off.$rococo_md$,
+  $rococo_md$**TODO:** Describe what Rococo did and why, in the order it happened. Tie each decision back to the challenge.
 
 ### Survey: audit
 
@@ -517,8 +538,8 @@ Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the clie
 
 - What does the monthly review cover, and what has been adjusted since launch?
 
-Describe the role of AI precisely and plainly. Add two or three images with alt text, such as a pipeline view with client data removed, or a landing page.`,
-    outcome: `**TODO:** Describe verified results only. Every figure needs a source, a time period, and a comparison, and the client must approve it in writing.
+Describe the role of AI precisely and plainly. Add two or three images with alt text, such as a pipeline view with client data removed, or a landing page.$rococo_md$,
+  $rococo_md$**TODO:** Describe verified results only. Every figure needs a source, a time period, and a comparison, and the client must approve it in writing.
 
 - Response time from the CRM, for comparable periods before and after launch.
 - Consultations or site visits booked from qualified inquiries.
@@ -526,37 +547,50 @@ Describe the role of AI precisely and plainly. Add two or three images with alt 
 - Paid search measured as cost per qualified inquiry, not cost per click.
 - Effect on the team, such as time saved or fewer dropped inquiries, only where it was measured.
 
-Match these results to the metrics listed for this case study. If a result cannot be verified, leave it out.`,
-    websiteUrl: null,
-    updatedAt: "2026-08-12T14:00:00.000Z",
-  },
-  {
-    slug: "specialty-trade-local-search",
-    clientName: "TODO: Client name",
-    title: "Local search program for a specialty trade contractor",
-    summary:
-      "TODO: In one or two sentences, who the client is, the business problem, and the verified result. Placeholder structure only.",
-    sector: "Specialty trade contractor",
-    location: "TODO: City, State",
-    services: ["Local SEO", "Website", "Reporting"],
-    metrics: [
-      {
-        label: "Map pack visibility",
-        value: "TODO",
-        note: "TODO: Share of priority searches that show the company in the map results across target markets. Compare the starting audit with month 6.",
-      },
-      {
-        label: "Calls from search",
-        value: "TODO",
-        note: "TODO: Tracked calls from the Business Profile and organic search. Compare the 6 months after launch with the 6 months before.",
-      },
-    ],
-    coverImageUrl: null,
-    coverImageAlt: null,
-    year: null,
-    featured: false,
-    publishedAt: "2026-07-20T14:00:00.000Z",
-    challenge: `**TODO:** Describe the starting point in the client's words. What was the business problem, not the marketing problem?
+Match these results to the metrics listed for this case study. If a result cannot be verified, leave it out.$rococo_md$,
+  '[{"label":"Median response time","value":"TODO","note":"TODO: Median time from inquiry to first personal reply, from the CRM. Compare the 90 days after launch with the 90 days before."},{"label":"Consultations booked","value":"TODO","note":"TODO: Consultations or site visits booked from qualified inquiries. Compare the 6 months after launch with the 6 months before."}]'::jsonb,
+  null,
+  null,
+  null,
+  null,
+  true,
+  20,
+  'published',
+  '2026-08-12T14:00:00.000Z'::timestamptz,
+  '2026-08-12T14:00:00.000Z'::timestamptz,
+  '2026-08-12T14:00:00.000Z'::timestamptz
+)
+on conflict (slug) do update set
+  client_name = excluded.client_name,
+  title = excluded.title,
+  summary = excluded.summary,
+  sector = excluded.sector,
+  location = excluded.location,
+  services = excluded.services,
+  challenge = excluded.challenge,
+  approach = excluded.approach,
+  outcome = excluded.outcome,
+  metrics = excluded.metrics,
+  cover_image_url = excluded.cover_image_url,
+  cover_image_alt = excluded.cover_image_alt,
+  website_url = excluded.website_url,
+  year = excluded.year,
+  featured = excluded.featured,
+  sort_order = excluded.sort_order,
+  status = excluded.status,
+  published_at = excluded.published_at;
+
+insert into public.case_studies (
+  slug, client_name, title, summary, sector, location, services, challenge, approach, outcome, metrics, cover_image_url, cover_image_alt, website_url, year, featured, sort_order, status, published_at, created_at, updated_at
+) values (
+  'specialty-trade-local-search',
+  'TODO: Client name',
+  'Local search program for a specialty trade contractor',
+  'TODO: In one or two sentences, who the client is, the business problem, and the verified result. Placeholder structure only.',
+  'Specialty trade contractor',
+  'TODO: City, State',
+  ARRAY['Local SEO', 'Website', 'Reporting']::text[],
+  $rococo_md$**TODO:** Describe the starting point in the client's words. What was the business problem, not the marketing problem?
 
 - Where did work come from before: referrals, general contractor relationships, search, repeat clients?
 - What did an owner see when searching for this trade in the client's market, and where did the company appear?
@@ -564,8 +598,8 @@ Match these results to the metrics listed for this case study. If a result canno
 - What was the business goal: more direct work, a new service line, a new market, or less reliance on a few general contractors?
 - What constraints shaped the work: budget, crew capacity, seasonality, service area?
 
-Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the client has signed off.`,
-    approach: `**TODO:** Describe what Rococo did and why, in the order it happened. Tie each decision back to the challenge.
+Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the client has signed off.$rococo_md$,
+  $rococo_md$**TODO:** Describe what Rococo did and why, in the order it happened. Tie each decision back to the challenge.
 
 ### Survey: audit
 
@@ -585,43 +619,78 @@ Aim for 150 to 250 words. Use an approved client quote, or a paraphrase the clie
 
 - What is the monthly routine: photos, posts, reviews, new project pages, reporting?
 
-Add two or three images with alt text, such as project photography used on the profile, or a location page.`,
-    outcome: `**TODO:** Describe verified results only. Every figure needs a source, a time period, and a comparison, and the client must approve it in writing.
+Add two or three images with alt text, such as project photography used on the profile, or a location page.$rococo_md$,
+  $rococo_md$**TODO:** Describe verified results only. Every figure needs a source, a time period, and a comparison, and the client must approve it in writing.
 
 - Tracked calls and forms from search, by source, for comparable periods before and after.
 - Map visibility for priority searches in target markets. State how it was measured, which searches, and on which dates.
 - Reviews gained over the period, and the current rating.
 - Work won that can be traced to search, if the client will share it.
 
-Match these results to the metrics listed for this case study. If a result cannot be verified, leave it out.`,
-    websiteUrl: null,
-    updatedAt: "2026-07-20T14:00:00.000Z",
-  },
-];
+Match these results to the metrics listed for this case study. If a result cannot be verified, leave it out.$rococo_md$,
+  '[{"label":"Map pack visibility","value":"TODO","note":"TODO: Share of priority searches that show the company in the map results across target markets. Compare the starting audit with month 6."},{"label":"Calls from search","value":"TODO","note":"TODO: Tracked calls from the Business Profile and organic search. Compare the 6 months after launch with the 6 months before."}]'::jsonb,
+  null,
+  null,
+  null,
+  null,
+  false,
+  30,
+  'published',
+  '2026-07-20T14:00:00.000Z'::timestamptz,
+  '2026-07-20T14:00:00.000Z'::timestamptz,
+  '2026-07-20T14:00:00.000Z'::timestamptz
+)
+on conflict (slug) do update set
+  client_name = excluded.client_name,
+  title = excluded.title,
+  summary = excluded.summary,
+  sector = excluded.sector,
+  location = excluded.location,
+  services = excluded.services,
+  challenge = excluded.challenge,
+  approach = excluded.approach,
+  outcome = excluded.outcome,
+  metrics = excluded.metrics,
+  cover_image_url = excluded.cover_image_url,
+  cover_image_alt = excluded.cover_image_alt,
+  website_url = excluded.website_url,
+  year = excluded.year,
+  featured = excluded.featured,
+  sort_order = excluded.sort_order,
+  status = excluded.status,
+  published_at = excluded.published_at;
 
-/* =============================================================================
- * Testimonials (PLACEHOLDERS)
- * Replace with real quotes approved in writing by the person quoted.
- * ========================================================================== */
+-- Testimonials (2): PLACEHOLDERS
+delete from public.testimonials where quote like 'TODO:%';
 
-export const fallbackTestimonials: Testimonial[] = [
-  {
-    id: "placeholder-testimonial-1",
-    quote:
-      "TODO: Add an approved client quote. The strongest testimonials name the problem, what changed, and a concrete result.",
-    authorName: "TODO: Client name",
-    authorTitle: "TODO: Title",
-    company: "TODO: Company",
-    caseStudySlug: "commercial-gc-brand-and-website",
-    featured: true,
-  },
-  {
-    id: "placeholder-testimonial-2",
-    quote: "TODO: Add a second approved client quote, ideally from a different sector or company size.",
-    authorName: "TODO: Client name",
-    authorTitle: "TODO: Title",
-    company: "TODO: Company",
-    caseStudySlug: "design-build-lead-system",
-    featured: false,
-  },
-];
+insert into public.testimonials (quote, author_name, author_title, company, case_study_id, featured, sort_order, status)
+select
+  'TODO: Add an approved client quote. The strongest testimonials name the problem, what changed, and a concrete result.' as quote,
+  'TODO: Client name' as author_name,
+  'TODO: Title' as author_title,
+  'TODO: Company' as company,
+  (select id from public.case_studies where slug = 'commercial-gc-brand-and-website') as case_study_id,
+  true as featured,
+  10 as sort_order,
+  'published' as status
+where not exists (
+  select 1 from public.testimonials t
+  where t.quote = 'TODO: Add an approved client quote. The strongest testimonials name the problem, what changed, and a concrete result.' and t.author_name = 'TODO: Client name'
+);
+
+insert into public.testimonials (quote, author_name, author_title, company, case_study_id, featured, sort_order, status)
+select
+  'TODO: Add a second approved client quote, ideally from a different sector or company size.' as quote,
+  'TODO: Client name' as author_name,
+  'TODO: Title' as author_title,
+  'TODO: Company' as company,
+  (select id from public.case_studies where slug = 'design-build-lead-system') as case_study_id,
+  false as featured,
+  20 as sort_order,
+  'published' as status
+where not exists (
+  select 1 from public.testimonials t
+  where t.quote = 'TODO: Add a second approved client quote, ideally from a different sector or company size.' and t.author_name = 'TODO: Client name'
+);
+
+commit;
