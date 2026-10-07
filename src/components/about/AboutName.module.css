@@ -1,0 +1,77 @@
+.lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.title {
+  max-width: 16ch;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: var(--measure);
+  font-size: var(--text-lead);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+@media (min-width: 1024px) {
+  .copy {
+    padding-top: var(--space-7);
+  }
+}
+
+.flourish {
+  margin-block: clamp(var(--space-8), 8vw, var(--space-9)) clamp(var(--space-7), 6vw, var(--space-8));
+}
+
+/* Three parts of the idea, set as a Swiss row with hairline heads. */
+.triad {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-7) var(--grid-gutter);
+}
+
+@media (min-width: 768px) {
+  .triad {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.part {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-heading);
+}
+
+.partMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.partIndex {
+  color: var(--color-heading);
+}
+
+.partTitle {
+  font-size: var(--text-h3-fluid);
+}
+
+.partBody {
+  max-width: 36ch;
+  color: var(--color-text-muted);
+}

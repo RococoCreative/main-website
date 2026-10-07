@@ -1,0 +1,55 @@
+.list {
+  list-style: none;
+  padding: 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  column-gap: var(--grid-gutter);
+  row-gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--color-divider);
+}
+
+.index {
+  grid-row: 1 / span 2;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 2;
+  color: var(--color-text-muted);
+}
+
+.title {
+  font-size: var(--text-h3-fluid);
+  max-width: 22ch;
+}
+
+.body {
+  max-width: var(--measure);
+  color: var(--color-text);
+}
+
+/* Desktop: index, statement, and explanation share one 12-column row. */
+@media (min-width: 1024px) {
+  .item {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    align-items: baseline;
+    padding-block: var(--space-7);
+  }
+
+  .index {
+    grid-column: 1 / span 1;
+    grid-row: auto;
+  }
+
+  .title {
+    grid-column: 2 / span 5;
+  }
+
+  .body {
+    grid-column: 7 / span 6;
+  }
+}
