@@ -117,7 +117,9 @@ It also creates a public Storage bucket named `media` for blog covers and case s
 
 ### 3. Load the starter content (optional)
 
-`supabase/seed.sql` contains the same starter articles and placeholder case studies as the local fallback. Run it in the SQL editor (or `npx supabase db reset` for a local stack). Placeholders are clearly marked `TODO`: replace them before launch.
+`supabase/seed.sql` contains the same starter articles and placeholder case studies as the local fallback. Run it in the SQL editor (or `npx supabase db reset` for a local stack). Placeholders are clearly marked `TODO`: replace them, or set them to `draft`, before launch.
+
+Re-running the seed overwrites rows with the same slugs, so run it only on a fresh project or before you start editing the starter content.
 
 ### 4. Instant updates (Database Webhook)
 
@@ -179,6 +181,7 @@ src/
   app/                      Routes (App Router)
     page.tsx                Home: the brand story
     services/  work/  work/[slug]/  blog/  blog/[slug]/  about/  contact/  privacy/
+    styleguide/             Living design-system reference (noindex)
     api/revalidate/         Supabase webhook -> cache invalidation
     layout.tsx              Fonts, metadata, header/footer, JSON-LD, static guardrail
     opengraph-image.tsx     Branded social image (per-slug images in work/ and blog/)
@@ -197,6 +200,8 @@ src/
     supabase/               Client + schema types
     motion/hooks.ts         Reduced-motion, in-view, scroll-progress hooks
     env.ts site.ts seo.ts og.tsx format.ts
+    metadata.ts             pageMetadata(): per-page title, canonical, Open Graph, Twitter
+    images.ts               isOptimizable(): which image sources next/image may optimize
   styles/tokens.css         Design tokens (mirrors docs/brand/tokens.reference.css)
 supabase/
   migrations/               Schema, RLS, storage bucket
@@ -217,6 +222,8 @@ Tokens live in `src/styles/tokens.css` and mirror `docs/brand/tokens.reference.c
 <Section surface="sand">...</Section>       // warm sand
 <Section theme="forest">...</Section>       // forest canvas: light text, gold accents, gold buttons with ink text
 ```
+
+A living reference of every token and primitive is served at `/styleguide` (excluded from search).
 
 Primitives (`src/components/ui`):
 
@@ -308,6 +315,7 @@ Search the codebase for `TODO` to find every item. The main categories:
 - [ ] Real, approved testimonials.
 - [ ] Founder/team bios and photography; client logos (with permission).
 - [ ] Contact details: phone, service area, social profiles, client portal link (`src/lib/site.ts`).
+- [ ] Once a postal address and service area are confirmed, switch the site-wide JSON-LD in `src/lib/seo.ts` from `Organization` to `ProfessionalService` and add `address` and `areaServed`.
 - [ ] Budget bands and response-time commitments on the contact page (`src/content/contact.ts`).
 - [ ] Typical phase durations and FAQ policies (pricing, AI usage, contract terms).
 - [ ] Privacy notice reviewed by counsel; "Last updated" date.

@@ -23,12 +23,13 @@ import {
 
 import styles from "./styleguide.module.css";
 
-export const metadata: Metadata = {
+import { pageMetadata } from "@/lib/metadata";
+export const metadata: Metadata = pageMetadata({
   title: "Style guide",
   description: "Living reference for the Rococo Creative web design system.",
-  robots: { index: false, follow: false },
-  alternates: { canonical: "/styleguide" },
-};
+  path: "/styleguide",
+  noindex: true,
+});
 
 const colors = [
   { token: "--rc-forest", name: "Forest", role: "Primary: headings, buttons, structure" },
