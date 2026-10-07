@@ -1,0 +1,36 @@
+.layout {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  row-gap: var(--space-6);
+}
+
+.label {
+  grid-column: 1 / -1;
+}
+
+.quote {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.attribution {
+  display: block;
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.pending {
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 1024px) {
+  .label {
+    grid-column: 1 / span 3;
+    padding-top: var(--space-3);
+  }
+
+  .quote {
+    grid-column: 5 / span 8;
+  }
+}

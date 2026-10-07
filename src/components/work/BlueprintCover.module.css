@@ -1,0 +1,138 @@
+/* Drafting sheet. Raw brand tokens (not themed roles) keep the sheet paper or
+   sand with forest linework on every canvas, including forest sections. */
+.cover {
+  --bp-ground: var(--rc-paper);
+  --bp-ink: var(--rc-forest);
+  --bp-muted: var(--rc-text-muted);
+
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bp-ground);
+  container-type: inline-size;
+}
+
+.sand {
+  --bp-ground: var(--rc-sand);
+  --bp-muted: var(--rc-text-muted-deep);
+}
+
+.paper {
+  --bp-ground: var(--rc-paper);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Hairlines stay hairlines at every size. */
+.svg path {
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ground,
+.cut,
+.opening {
+  fill: var(--bp-ground);
+}
+
+.grid {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-opacity: 0.12;
+  stroke-width: 1px;
+}
+
+.frame {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-opacity: 0.55;
+  stroke-width: 1px;
+}
+
+.hatch {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-opacity: 0.36;
+  stroke-width: 0.6px;
+}
+
+.glass {
+  fill: var(--bp-ink);
+  fill-opacity: 0.07;
+}
+
+.poche {
+  fill: var(--bp-ink);
+}
+
+.fine {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-opacity: 0.85;
+  stroke-width: 0.75px;
+}
+
+.medium {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-width: 1.15px;
+}
+
+.heavy {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-width: 2px;
+}
+
+.dim {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-opacity: 0.55;
+  stroke-width: 0.75px;
+}
+
+.tick {
+  fill: none;
+  stroke: var(--bp-ink);
+  stroke-width: 1.15px;
+}
+
+/* The sheet's single gold mark: ground datum or north arrow. */
+.accent {
+  fill: var(--rc-gold);
+}
+
+.text {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  fill: var(--bp-ink);
+}
+
+.muted {
+  fill: var(--bp-muted);
+}
+
+/* Large covers carry slightly heavier linework. */
+@container (min-width: 900px) {
+  .medium,
+  .tick {
+    stroke-width: 1.35px;
+  }
+
+  .heavy {
+    stroke-width: 2.5px;
+  }
+}
+
+/* Labels too small to read at narrow sizes are dropped, not shrunk. */
+@container (max-width: 560px) {
+  .minor {
+    display: none;
+  }
+}

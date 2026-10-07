@@ -1,0 +1,82 @@
+/* Hairlines on sand need more weight than the paper hairline token. */
+.head {
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border-strong) 55%, transparent);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border-strong) 35%, transparent);
+}
+
+.metric:last-child {
+  border-bottom: 0;
+}
+
+.label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+}
+
+.index {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--color-text-muted);
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: var(--text-numeral);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-heading);
+  overflow-wrap: anywhere;
+}
+
+/* Same footprint as a numeral, so real and pending figures align. */
+.valueTodo {
+  display: flex;
+  align-items: center;
+  min-height: var(--text-numeral);
+}
+
+.note {
+  max-width: 34ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .metrics {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+
+  .metric {
+    padding: var(--space-6) var(--space-6) var(--space-4) 0;
+    border-bottom: 0;
+  }
+
+  .metric + .metric {
+    padding-left: var(--space-6);
+    border-left: 1px solid color-mix(in srgb, var(--color-border-strong) 35%, transparent);
+  }
+}

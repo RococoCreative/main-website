@@ -1,0 +1,204 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+
+.media {
+  position: relative;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .body {
+    padding: var(--space-6);
+  }
+}
+
+.eyebrow {
+  margin-bottom: var(--space-1);
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: var(--text-h3-fluid);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-heading);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Stretched link: the card is the hit area, the title is the accessible name. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.link:hover {
+  color: inherit;
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Focus ring on the whole card, never on the hidden overlay. */
+.card:has(.link:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  box-shadow: var(--focus-ring);
+}
+
+.summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  color: var(--color-text-muted);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-normal);
+}
+
+.inlineChip {
+  vertical-align: 0.1em;
+  margin-right: var(--space-1);
+}
+
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+/* Long service names wrap inside the tag instead of overflowing narrow cards. */
+.services > li {
+  max-width: 100%;
+}
+
+.services > li > * {
+  max-width: 100%;
+  white-space: normal;
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.metric {
+  min-width: 0;
+}
+
+.metricLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.metricValue {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-heading);
+}
+
+.metricNote {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin-top: var(--space-2);
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+.arrow {
+  display: inline-flex;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  color: var(--color-primary);
+  font-size: 18px;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+
+.arrow svg {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--color-divider);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.card:hover .arrow {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.card:hover .arrow svg {
+  transform: translateX(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
+
+  .card:hover .arrow svg {
+    transform: none;
+  }
+}

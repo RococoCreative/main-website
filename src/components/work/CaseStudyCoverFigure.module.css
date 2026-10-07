@@ -1,0 +1,10 @@
+.wrap {
+  padding-block: clamp(var(--space-6), 5vw, var(--space-8));
+}
+
+.frame {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}

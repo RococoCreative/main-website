@@ -1,0 +1,67 @@
+.facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: clamp(var(--space-7), 6vw, var(--space-8));
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Narrow screens: label and value side by side, one row per fact. */
+.fact {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  column-gap: var(--space-4);
+  align-items: baseline;
+  padding-block: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.value {
+  min-width: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+}
+
+.numeral {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  font-variant-numeric: tabular-nums;
+}
+
+.link {
+  color: var(--color-link);
+}
+
+/* Wider screens: a horizontal Swiss table, label above value. */
+@media (min-width: 640px) {
+  .facts {
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    column-gap: var(--grid-gutter);
+    border-bottom: 0;
+  }
+
+  .fact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block: var(--space-4) var(--space-2);
+    border-top-color: var(--color-border-strong);
+  }
+}
