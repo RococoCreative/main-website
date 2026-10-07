@@ -25,6 +25,9 @@
 }
 
 .link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-family: var(--font-sans);
   font-size: var(--text-label);
   font-weight: var(--weight-medium);

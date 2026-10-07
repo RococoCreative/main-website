@@ -87,7 +87,8 @@
 .ghost {
   --btn-fg: var(--color-primary);
   --btn-fg-hover: var(--color-primary-hover);
-  padding-inline: var(--space-2);
+  white-space: normal;
+  text-align: left;
 }
 
 .ghost .label {
@@ -128,6 +129,23 @@
 
 .fullWidth {
   width: 100%;
+}
+
+/* Ghost buttons sit flush with the text edge (declared after the size rules). */
+.ghost.md,
+.ghost.lg {
+  padding-inline: 0;
+}
+
+/* Toggle buttons (aria-pressed): the pressed state fills, and is never color alone
+   when paired with an icon or label change by the caller. */
+.secondary[aria-pressed="true"],
+.ghost[aria-pressed="true"] {
+  --btn-bg: var(--color-primary);
+  --btn-fg: var(--color-on-primary);
+  --btn-border: var(--color-primary);
+  --btn-bg-hover: var(--color-primary-hover);
+  --btn-fg-hover: var(--color-on-primary);
 }
 
 .label {

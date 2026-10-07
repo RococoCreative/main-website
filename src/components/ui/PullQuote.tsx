@@ -9,15 +9,21 @@ type PullQuoteProps = {
   /** Role and company, e.g. "Owner, Example Builders". */
   role?: string;
   size?: "md" | "lg";
-  /** Gold vertical rule. Counts toward the one-flourish-per-page budget only on light canvases. */
+  /** Vertical rule beside the quote. */
   rule?: boolean;
+  /** "accent" draws the rule in gold; "structure" uses a forest hairline so the page's gold budget stays free. */
+  ruleTone?: "accent" | "structure";
   className?: string;
 };
 
 /** Display serif in Forest with generous margins, for testimonials and manifesto lines. */
-export function PullQuote({ children, author, role, size = "md", rule = true, className }: PullQuoteProps) {
+export function PullQuote({ children, author, role, size = "md", rule = true, ruleTone = "accent", className }: PullQuoteProps) {
   return (
-    <figure className={[styles.figure, styles[size], rule ? styles.withRule : "", className].filter(Boolean).join(" ")}>
+    <figure
+      className={[styles.figure, styles[size], rule ? styles.withRule : "", rule && ruleTone === "structure" ? styles.structure : "", className]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <blockquote className={styles.quote}>
         <p>{children}</p>
       </blockquote>

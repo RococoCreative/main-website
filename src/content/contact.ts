@@ -29,8 +29,9 @@ export const budgets = [
 export const timelines = ["As soon as possible", "Within 3 months", "3 to 6 months", "Planning for next year"] as const;
 
 /** Copy for the "what happens next" panel on the contact page. */
+// TODO: Rococo to confirm these commitments before launch (reply time, call length, written recommendation).
 export const nextSteps = [
-  { title: "We reply within one business day", body: "A real person reads every inquiry. No automated sales sequence." },
+  { title: "We reply within one business day", body: "A real person reads every inquiry and writes the reply." },
   {
     title: "A 30-minute conversation",
     body: "We ask about your market, your best projects, and where work comes from today.",

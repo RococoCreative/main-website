@@ -8,7 +8,9 @@
   font-size: var(--text-small);
   letter-spacing: 0.04em;
   line-height: 1.5;
-  white-space: nowrap;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .icon {
@@ -27,7 +29,7 @@
 }
 
 [data-theme] .neutral {
-  background: rgba(233, 225, 212, 0.12);
+  background: color-mix(in srgb, var(--rc-sand) 12%, transparent);
   color: var(--color-text);
 }
 
@@ -36,14 +38,15 @@
   color: var(--color-text);
 }
 
-/* Semantic surface tint + accessible ink text (all ≥ 4.5:1). */
+/* Semantic surface tint + accessible text (all at least 4.5:1). */
 .success {
   background: color-mix(in srgb, var(--color-success-bg) 45%, var(--rc-paper));
   color: var(--color-success-fg);
 }
 
 .error {
-  background: color-mix(in srgb, var(--color-error-bg) 18%, var(--rc-paper));
+  /* 6% tint keeps #B84A4A text at 4.7:1. */
+  background: color-mix(in srgb, var(--color-error-bg) 6%, var(--rc-paper));
   color: var(--color-error-fg);
 }
 

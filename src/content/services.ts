@@ -97,13 +97,13 @@ export const pillars: Pillar[] = [
       {
         id: "paid-search",
         name: "Paid search",
-        outcome: "Qualified inquiries on demand, with spend tied to booked work.",
+        outcome: "Qualified inquiries from owners searching now, with spend judged by booked work.",
         deliverables: ["Google Ads and Local Services Ads", "Landing pages", "Call and form tracking"],
       },
       {
         id: "automation",
         name: "CRM & automation",
-        outcome: "Every inquiry answered quickly, qualified, and followed up until it closes.",
+        outcome: "Every inquiry answered quickly, qualified, and followed up until it is won or ruled out.",
         deliverables: ["CRM pipeline setup", "AI-assisted first response", "Automated follow-up sequences"],
       },
       {

@@ -8,7 +8,7 @@ export const site = {
   shortName: "Rococo",
   tagline: "Strategy, design, and AI-driven marketing for construction companies.",
   description:
-    "Rococo Creative is a boutique digital agency for construction company owners. We combine strategy, design, and AI-driven marketing to win better work and build brands that last.",
+    "Rococo Creative is a boutique digital agency for construction company owners. We combine strategy, design, and AI-driven marketing so you win better work and build a brand that lasts.",
   locale: "en_US",
   // TODO: Confirm the public contact email, phone, and service area.
   contact: {
@@ -43,7 +43,7 @@ export const cta = {
 
 export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
-    heading: "Studio",
+    heading: "Company",
     items: [
       { label: "About", href: "/about" },
       { label: "Work", href: "/work" },

@@ -40,9 +40,9 @@ type PostRow = Database["public"]["Tables"]["posts"]["Row"];
 type CaseStudyRow = Database["public"]["Tables"]["case_studies"]["Row"];
 
 const POST_SUMMARY_COLUMNS =
-  "slug,title,excerpt,cover_image_url,cover_image_alt,author_name,author_role,tags,reading_minutes,word_count,published_at";
+  "slug,title,excerpt,cover_image_url,cover_image_alt,author_name,author_role,tags,reading_minutes,word_count,published_at,updated_at";
 const CASE_STUDY_SUMMARY_COLUMNS =
-  "slug,client_name,title,summary,sector,location,services,metrics,cover_image_url,cover_image_alt,year,featured,published_at";
+  "slug,client_name,title,summary,sector,location,services,metrics,cover_image_url,cover_image_alt,year,featured,published_at,updated_at";
 
 class ContentError extends Error {
   constructor(what: string, cause: { message: string; code?: string }) {
@@ -82,6 +82,7 @@ type PostSummaryRow = Pick<
   | "reading_minutes"
   | "word_count"
   | "published_at"
+  | "updated_at"
 >;
 
 function mapPostSummary(row: PostSummaryRow): PostSummary {
@@ -96,6 +97,7 @@ function mapPostSummary(row: PostSummaryRow): PostSummary {
     tags: row.tags ?? [],
     readingMinutes: row.reading_minutes ?? minutesFromWords(row.word_count),
     publishedAt: row.published_at ?? new Date(0).toISOString(),
+    updatedAt: row.updated_at,
   };
 }
 
@@ -105,7 +107,6 @@ function mapPost(row: PostRow): Post {
     body: row.body,
     seoTitle: row.seo_title,
     seoDescription: row.seo_description,
-    updatedAt: row.updated_at,
   };
 }
 
@@ -124,6 +125,7 @@ type CaseStudySummaryRow = Pick<
   | "year"
   | "featured"
   | "published_at"
+  | "updated_at"
 >;
 
 function mapCaseStudySummary(row: CaseStudySummaryRow): CaseStudySummary {
@@ -141,6 +143,7 @@ function mapCaseStudySummary(row: CaseStudySummaryRow): CaseStudySummary {
     year: row.year,
     featured: row.featured,
     publishedAt: row.published_at ?? new Date(0).toISOString(),
+    updatedAt: row.updated_at,
   };
 }
 
@@ -151,7 +154,6 @@ function mapCaseStudy(row: CaseStudyRow): CaseStudy {
     approach: row.approach,
     outcome: row.outcome,
     websiteUrl: row.website_url,
-    updatedAt: row.updated_at,
   };
 }
 
@@ -167,6 +169,7 @@ function toPostSummary(post: Post): PostSummary {
     tags: post.tags,
     readingMinutes: post.readingMinutes,
     publishedAt: post.publishedAt,
+    updatedAt: post.updatedAt,
   };
 }
 
@@ -185,6 +188,7 @@ function toCaseStudySummary(study: CaseStudy): CaseStudySummary {
     year: study.year,
     featured: study.featured,
     publishedAt: study.publishedAt,
+    updatedAt: study.updatedAt,
   };
 }
 

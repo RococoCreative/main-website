@@ -22,7 +22,10 @@ export function organizationJsonLd(): Record<string, unknown> {
   const sameAs = [site.social.linkedin, site.social.instagram].filter(Boolean);
   return {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    // Organization until Rococo supplies a postal address and service area
+    // (site.contact). ProfessionalService is a LocalBusiness subtype that
+    // requires an address; switch back and add address + areaServed then.
+    "@type": "Organization",
     "@id": absoluteUrl("/#organization"),
     name: site.name,
     url: absoluteUrl("/"),

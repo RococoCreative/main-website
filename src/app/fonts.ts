@@ -11,8 +11,10 @@ import { Cormorant_Garamond, Fragment_Mono, Instrument_Sans, Inter } from "next/
 
 export const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
+  // Light 300 carries every display style (400 shares the same variable file).
+  // No italic: it would be preloaded on every page without being used.
   weight: ["300", "400"],
-  style: ["normal", "italic"],
+  style: "normal",
   variable: "--font-cormorant",
   display: "swap",
 });

@@ -16,7 +16,8 @@ type EyebrowProps = {
 /**
  * The brand signature: a bracketed, uppercase, mono section label.
  * Write the label in sentence case; CSS sets the uppercase so screen readers
- * read words, not letters. Brackets are decorative and hidden from AT.
+ * read words, not letters. Brackets are decorative and hidden from AT. They are
+ * inline with non-breaking spaces so they stay attached when a label wraps.
  */
 export function Eyebrow({ children, index, as: Tag = "p", tone = "muted", className, id }: EyebrowProps) {
   return (
@@ -27,12 +28,14 @@ export function Eyebrow({ children, index, as: Tag = "p", tone = "muted", classN
           <span className="visually-hidden">. </span>
         </span>
       ) : null}
-      <span className={styles.bracket} aria-hidden="true">
-        [
-      </span>
-      <span className={styles.label}>{children}</span>
-      <span className={styles.bracket} aria-hidden="true">
-        ]
+      <span className={styles.label}>
+        <span className={styles.bracket} aria-hidden="true">
+          {"[ "}
+        </span>
+        {children}
+        <span className={styles.bracket} aria-hidden="true">
+          {" ]"}
+        </span>
       </span>
     </Tag>
   );

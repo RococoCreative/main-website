@@ -4,8 +4,18 @@
   background: var(--color-bg);
 }
 
-/* A single fine gold rule echoes the drafting-table motif. */
-.band::before {
+.inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  row-gap: var(--space-7);
+  padding-block: clamp(var(--space-8), 9vw, var(--space-10));
+}
+
+/* A single fine gold rule echoes the drafting-table motif. It hangs from the
+   container so it starts at the content edge at every width. */
+.inner::before {
   content: "";
   position: absolute;
   top: 0;
@@ -13,14 +23,6 @@
   width: min(240px, 30vw);
   height: 2px;
   background: var(--color-accent);
-}
-
-.inner {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  row-gap: var(--space-7);
-  padding-block: clamp(var(--space-8), 9vw, var(--space-10));
 }
 
 .copy {

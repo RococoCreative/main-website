@@ -1,5 +1,7 @@
+/* Ranges end a fixed distance after entry (not a percentage of the element),
+   so tall blocks such as long prose are fully opaque by the time they are read. */
 .reveal {
-  --reveal-start: 0%;
+  --reveal-start: 0px;
 }
 
 @supports (animation-timeline: view()) {
@@ -7,13 +9,13 @@
     .rise {
       animation: rise linear both;
       animation-timeline: view();
-      animation-range: entry var(--reveal-start) entry calc(var(--reveal-start) + 70%);
+      animation-range: entry var(--reveal-start) entry calc(var(--reveal-start) + 160px);
     }
 
     .fade {
       animation: fade linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 80%;
+      animation-range: entry 0% entry 160px;
     }
 
     .draw {

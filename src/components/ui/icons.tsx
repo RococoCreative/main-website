@@ -43,6 +43,15 @@ export function ArrowUpRight(props: IconProps) {
   );
 }
 
+export function ArrowDown(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M12 4v15" />
+      <path d="M6 13l6 6 6-6" />
+    </Svg>
+  );
+}
+
 export function ArrowLeft(props: IconProps) {
   return (
     <Svg {...props}>

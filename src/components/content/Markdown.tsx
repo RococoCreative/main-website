@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
-import ReactMarkdown, { type Components } from "react-markdown";
+import ReactMarkdown, { type Components, type Options } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import styles from "./Markdown.module.css";
@@ -16,7 +16,8 @@ function isInternal(href?: string): boolean {
   return Boolean(href && href.startsWith("/") && !href.startsWith("//"));
 }
 
-const components: Components = {
+/** Shared element mapping. Reused by the blog article renderer (src/components/blog/ArticleBody.tsx). */
+export const markdownComponents: Components = {
   h1: ({ node: _node, ...props }) => <h2 {...props} />,
   h2: ({ node: _node, ...props }) => <h2 {...props} />,
   h3: ({ node: _node, ...props }) => <h3 {...props} />,
@@ -53,12 +54,14 @@ type MarkdownProps = {
   children: string;
   className?: string;
   size?: "md" | "lg";
+  /** Extra remark plugins, applied after GitHub-flavored Markdown. */
+  remarkPlugins?: NonNullable<Options["remarkPlugins"]>;
 };
 
-export function Markdown({ children, className, size = "md" }: MarkdownProps) {
+export function Markdown({ children, className, size = "md", remarkPlugins = [] }: MarkdownProps) {
   return (
     <div className={[styles.prose, styles[size], className].filter(Boolean).join(" ")}>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components} skipHtml>
+      <ReactMarkdown remarkPlugins={[remarkGfm, ...remarkPlugins]} components={markdownComponents} skipHtml>
         {children}
       </ReactMarkdown>
     </div>

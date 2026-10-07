@@ -16,6 +16,7 @@ export type PostSummary = {
   tags: string[];
   readingMinutes: number;
   publishedAt: string;
+  updatedAt: string;
 };
 
 export type Post = PostSummary & {
@@ -23,7 +24,6 @@ export type Post = PostSummary & {
   body: string;
   seoTitle: string | null;
   seoDescription: string | null;
-  updatedAt: string;
 };
 
 export type CaseStudyMetric = {
@@ -47,6 +47,7 @@ export type CaseStudySummary = {
   year: number | null;
   featured: boolean;
   publishedAt: string;
+  updatedAt: string;
 };
 
 export type CaseStudy = CaseStudySummary & {
@@ -57,7 +58,6 @@ export type CaseStudy = CaseStudySummary & {
   /** Markdown */
   outcome: string;
   websiteUrl: string | null;
-  updatedAt: string;
 };
 
 export type Testimonial = {

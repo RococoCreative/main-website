@@ -22,7 +22,7 @@ export function Reveal({ children, as: Tag = "div", className, stagger = 0, effe
   return (
     <Tag
       className={[styles.reveal, styles[effect], className].filter(Boolean).join(" ")}
-      style={stagger ? ({ "--reveal-start": `${stagger * 8}%` } as CSSProperties) : undefined}
+      style={stagger ? ({ "--reveal-start": `${stagger * 24}px` } as CSSProperties) : undefined}
     >
       {children}
     </Tag>

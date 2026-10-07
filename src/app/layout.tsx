@@ -21,18 +21,16 @@ export const ensureStatic = "navigation";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${site.name} | Strategy, design, and AI-driven marketing for construction`,
+    default: `${site.name} | Marketing for construction companies`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
   applicationName: site.name,
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: site.name,
     locale: site.locale,
-    url: "/",
-    title: `${site.name} | Strategy, design, and AI-driven marketing for construction`,
+    title: `${site.name} | Marketing for construction companies`,
     description: site.description,
   },
   twitter: {

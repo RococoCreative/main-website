@@ -78,9 +78,9 @@ export function renderOgImage({ eyebrow, title, subtitle }: OgInput): ImageRespo
 
         <div style={{ display: "flex", flexDirection: "column", gap: 28, position: "relative", maxWidth: 900 }}>
           <div style={{ display: "flex", fontFamily: "Fragment Mono", fontSize: 22, letterSpacing: 4, color: MUTED }}>
-            <span style={{ color: GOLD }}>[</span>
+            <span style={{ color: MUTED }}>[</span>
             <span style={{ margin: "0 14px" }}>{eyebrow.toUpperCase()}</span>
-            <span style={{ color: GOLD }}>]</span>
+            <span style={{ color: MUTED }}>]</span>
           </div>
           <div
             style={{
@@ -105,7 +105,7 @@ export function renderOgImage({ eyebrow, title, subtitle }: OgInput): ImageRespo
           <img src={ornamentSrc} width={36} height={40} />
           <div style={{ display: "flex", height: 1, width: 120, background: GOLD }} />
           <div style={{ display: "flex", marginLeft: 12, fontSize: 18, color: MUTED, background: SAND, padding: "6px 14px", borderRadius: 999 }}>
-            Strategy · Design · AI-driven marketing
+            Strategy · Brand &amp; Design · AI-driven Marketing
           </div>
         </div>
       </div>

@@ -13,6 +13,11 @@ const staticRoutes: { path: string; changeFrequency: "weekly" | "monthly" | "yea
   { path: "/privacy", changeFrequency: "yearly", priority: 0.2 },
 ];
 
+/** The later of edit and publish dates (a scheduled post can be edited before it publishes). */
+function lastModified(item: { publishedAt: string; updatedAt: string }): string {
+  return item.updatedAt > item.publishedAt ? item.updatedAt : item.publishedAt;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [posts, studies] = await Promise.all([getPosts(), getCaseStudies()]);
 
@@ -24,13 +29,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...studies.map((s) => ({
       url: `${siteUrl}/work/${s.slug}`,
-      lastModified: s.publishedAt,
+      lastModified: lastModified(s),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
     ...posts.map((p) => ({
       url: `${siteUrl}/blog/${p.slug}`,
-      lastModified: p.publishedAt,
+      lastModified: lastModified(p),
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),

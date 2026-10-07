@@ -141,7 +141,10 @@ create table if not exists public.contact_submissions (
   phone         text check (phone is null or char_length(phone) <= 40),
   company_type  text check (company_type is null or char_length(company_type) <= 80),
   services      text[] not null default '{}'
-                  check (cardinality(services) <= 12),
+                  check (
+                    cardinality(services) <= 12
+                    and char_length(array_to_string(services, '|')) <= 1000
+                  ),
   budget        text check (budget is null or char_length(budget) <= 60),
   timeline      text check (timeline is null or char_length(timeline) <= 60),
   message       text not null check (char_length(message) between 10 and 5000),

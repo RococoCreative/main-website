@@ -66,12 +66,6 @@
   border-color: var(--rc-text-muted);
 }
 
-.control:focus-visible {
-  outline: 2px solid transparent;
-  border-color: var(--rc-forest);
-  box-shadow: var(--focus-ring);
-}
-
 .textarea {
   resize: vertical;
   min-height: 160px;
@@ -99,6 +93,16 @@
 
 .hasError .control {
   border-color: var(--color-error-fg);
+}
+
+/* Focus after the error rule so it always wins: a solid 2px ring (at least 3:1
+   on every surface) plus the border change and soft halo. */
+.control:focus-visible,
+.hasError .control:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-color: var(--rc-forest);
+  box-shadow: var(--focus-ring);
 }
 
 .error {
