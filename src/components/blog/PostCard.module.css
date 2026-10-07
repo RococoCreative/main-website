@@ -1,0 +1,323 @@
+/* =============================================================================
+   PostCard: text-forward article cards.
+   Shared: stretched title link, hover lift like the Card primitive, focus ring
+   drawn on the card via :has(:focus-visible).
+   ============================================================================= */
+
+.card {
+  position: relative;
+  min-width: 0;
+  transition:
+    box-shadow var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-out);
+}
+
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--duration-base) var(--ease-out);
+}
+
+/* Stretched link: the whole card is the hit area, the title is the name. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.card:hover .link {
+  text-decoration-color: currentColor;
+}
+
+/* Move the focus ring from the title to the card only where :has() exists,
+   so older engines keep the title's own visible focus outline. */
+@supports selector(:has(*)) {
+  .link:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .card:has(.link:focus-visible) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.title {
+  color: var(--color-heading);
+  text-wrap: balance;
+}
+
+.date {
+  white-space: nowrap;
+}
+
+.meta,
+.foot,
+.byline {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.arrow {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.card:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* -----------------------------------------------------------------------------
+   default: a ruled "sheet". Meta row, title, excerpt, reading-time row.
+   -------------------------------------------------------------------------- */
+.default {
+  --card-pad: clamp(var(--space-5), 3vw, var(--space-6));
+
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.default:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.default .meta {
+  grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  padding: var(--space-4) var(--card-pad);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.default .title {
+  grid-row: 2;
+  padding: var(--card-pad) var(--card-pad) 0;
+  font-size: var(--text-h3-fluid);
+}
+
+.default .excerpt {
+  grid-row: 3;
+  padding: var(--space-3) var(--card-pad) var(--card-pad);
+  color: var(--color-text-muted);
+}
+
+.default .foot {
+  grid-row: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-4) var(--card-pad);
+  border-top: 1px solid var(--color-border);
+}
+
+/* -----------------------------------------------------------------------------
+   compact: a ruled index row (date, title, arrow) for related reading.
+   -------------------------------------------------------------------------- */
+.compact {
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--space-5);
+  row-gap: var(--space-2);
+  align-items: center;
+  padding-block: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Hover panel bleeds slightly past the text so the row stays on the grid edge. */
+.compact::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(var(--space-3) * -1);
+  z-index: -1;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.compact:hover::before {
+  opacity: 1;
+}
+
+.compact .meta {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.compact .title {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+  line-height: var(--leading-snug);
+}
+
+.compact .arrow {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 1.4em;
+  height: 1.4em;
+  color: var(--color-primary);
+}
+
+@media (min-width: 768px) {
+  .compact {
+    grid-template-columns: 13rem minmax(0, 1fr) auto;
+    padding-block: var(--space-6);
+  }
+
+  .compact .meta,
+  .compact .title,
+  .compact .arrow {
+    grid-row: 1;
+  }
+
+  .compact .title {
+    grid-column: 2;
+  }
+
+  .compact .arrow {
+    grid-column: 3;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   feature: large serif title on a sand panel with Swiss rules.
+   data-surface="sand" swaps the muted-text token to its AA-safe deep tone.
+   -------------------------------------------------------------------------- */
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding: var(--space-5) clamp(var(--space-5), 4vw, var(--space-8)) clamp(var(--space-6), 4vw, var(--space-8));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.feature:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.feature .meta {
+  grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.tags {
+  overflow-wrap: anywhere;
+}
+
+.featureMain {
+  grid-row: 2;
+  padding-top: clamp(var(--space-6), 5vw, var(--space-9));
+}
+
+.feature .title {
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: clamp(2rem, 1.3rem + 2.6vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-display);
+}
+
+.featureAside {
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+}
+
+.feature .excerpt {
+  max-width: 46ch;
+  font-size: var(--text-lead);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.byline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.sep {
+  width: var(--space-5);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.feature .more {
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 1024px) {
+  .feature {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+  }
+
+  .feature .meta {
+    grid-column: 1 / -1;
+  }
+
+  .featureMain {
+    grid-column: 1 / span 7;
+    padding-bottom: var(--space-3);
+  }
+
+  .featureAside {
+    grid-column: 8 / span 5;
+    grid-row: 2;
+    align-self: end;
+    padding-top: clamp(var(--space-6), 5vw, var(--space-9));
+    padding-left: var(--grid-gutter);
+    border-left: 1px solid var(--color-divider);
+  }
+}

@@ -1,0 +1,220 @@
+/* =============================================================================
+   Insights index: hero stats, topic filter, featured article, archive grid.
+   ============================================================================= */
+
+/* Hero aside: Swiss index of the archive ---------------------------------- */
+.stats {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.stat dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.stat dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  color: var(--color-heading);
+  text-align: right;
+}
+
+/* Listing ----------------------------------------------------------------- */
+.listing {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(var(--space-6), 4vw, var(--space-7));
+}
+
+/* Topic filter ------------------------------------------------------------ */
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Without JavaScript the buttons would do nothing: hide the toolbar. Every
+   article is already listed in the server HTML. */
+@media (scripting: none) {
+  .toolbar {
+    display: none;
+  }
+}
+
+.toolbarLabel,
+.status {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  line-height: 1.2;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* Pressed: filled plus a check mark, so state never relies on color alone. */
+.chip[aria-pressed="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.chipCheck {
+  display: none;
+  flex: none;
+  width: 1em;
+  height: 1em;
+}
+
+.chip[aria-pressed="true"] .chipCheck {
+  display: block;
+}
+
+.chipCount {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-weight: var(--weight-regular);
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
+@media (min-width: 1024px) {
+  .toolbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-6);
+  }
+
+  .status {
+    text-align: right;
+  }
+}
+
+/* Featured article -------------------------------------------------------- */
+.featured {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Archive grid ------------------------------------------------------------ */
+.archive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.featured + .archive {
+  margin-top: clamp(var(--space-5), 4vw, var(--space-7));
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--grid-gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Two articles share the row instead of leaving an empty third column. */
+  .grid[data-count="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Empty state ------------------------------------------------------------- */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  max-width: 44rem;
+  padding: clamp(var(--space-6), 5vw, var(--space-8));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.emptyTitle {
+  max-width: 22ch;
+}
+
+.emptyBody {
+  max-width: 52ch;
+  color: var(--color-text-muted);
+}
+
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* Single gold flourish ----------------------------------------------------- */
+.flourish {
+  padding-bottom: clamp(var(--space-7), 6vw, var(--space-9));
+}

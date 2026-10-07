@@ -1,0 +1,24 @@
+/* Mirrors the Eyebrow primitive's type, but inline so wrapping stays tidy. */
+.label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.5;
+  text-transform: uppercase;
+  text-wrap: pretty;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .label {
+    font-size: 13px;
+  }
+}
+
+.index {
+  margin-right: 0.6em;
+  padding-right: 0.6em;
+  border-right: 1px solid var(--color-border);
+}

@@ -1,0 +1,18 @@
+/* Pinned to the bottom edge of the sticky header, under the mobile menu panel (z 49). */
+.track {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  height: 2px;
+  pointer-events: none;
+}
+
+.bar {
+  height: 100%;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}

@@ -1,0 +1,438 @@
+/* =============================================================================
+   Article page (/blog/[slug]).
+   Header on the Swiss guides, title block between hairlines, body on columns
+   3 to 10 of the 12-column grid, contents in the left rail on wide screens.
+   ============================================================================= */
+
+/* Header ------------------------------------------------------------------ */
+.header {
+  position: relative;
+  isolation: isolate;
+  padding-top: clamp(var(--space-5), 4vw, var(--space-7));
+}
+
+.headerInner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb ol {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: var(--space-2);
+}
+
+.crumbSep {
+  color: var(--color-border-strong);
+}
+
+.crumbLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 0.3em;
+}
+
+.crumbLink:hover {
+  text-decoration-color: currentColor;
+}
+
+/* The current page title shortens to one line; the full title is the H1 below. */
+.crumbCurrent {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.crumbPage {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 48ch;
+}
+
+/* Headline */
+.headline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  margin-top: clamp(var(--space-6), 5vw, var(--space-8));
+}
+
+.title {
+  max-width: 21ch;
+}
+
+.lead {
+  max-width: 56ch;
+  font-size: var(--text-lead);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+/* Title block: author, dates, reading time between hairlines. */
+.meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-5);
+  margin: clamp(var(--space-7), 6vw, var(--space-8)) 0 0;
+  padding-block: var(--space-4);
+  border-top: 1px solid var(--color-border-strong);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.metaItem dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.metaItem dd {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-medium);
+  color: var(--color-heading);
+}
+
+.metaSub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .meta {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-template-columns: none;
+    column-gap: 0;
+  }
+
+  .metaItem {
+    padding-inline: var(--space-5);
+  }
+
+  .metaItem:first-child {
+    padding-left: 0;
+  }
+
+  .metaItem + .metaItem {
+    border-left: 1px solid var(--color-border);
+  }
+}
+
+/* Cover image */
+.cover {
+  position: relative;
+  margin-top: clamp(var(--space-6), 5vw, var(--space-8));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-sand);
+}
+
+.coverImage {
+  object-fit: cover;
+}
+
+/* Dimension rule (no cover) */
+.dimension {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: clamp(var(--space-6), 5vw, var(--space-8));
+  color: var(--color-border-strong);
+}
+
+.dimTick {
+  position: relative;
+  flex: none;
+  width: 1px;
+  height: 18px;
+  background: currentColor;
+}
+
+/* Architectural slash tick across the extension line. */
+.dimTick::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 12px;
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.dimLine {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+}
+
+.dimLineStart {
+  transform-origin: right center;
+}
+
+/* The two halves meet at the centre (no label between them). */
+.dimLineEnd {
+  margin-left: calc(var(--space-3) * -1);
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dimLine {
+    animation: dimDraw var(--duration-story) var(--ease-out) both;
+  }
+}
+
+@keyframes dimDraw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* Body layout ------------------------------------------------------------- */
+.layout {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  row-gap: clamp(var(--space-7), 6vw, var(--space-8));
+  padding-block: clamp(var(--space-7), 6vw, var(--space-9)) clamp(var(--space-8), 8vw, var(--space-10));
+}
+
+.layout > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .layout > * {
+    grid-column: 2 / span 10;
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout > * {
+    grid-column: 3 / span 8;
+  }
+}
+
+/* Wide screens: contents move to a sticky rail in columns 1 and 2. */
+@media (min-width: 1280px) {
+  .withContents > .contents {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+    max-height: calc(100vh - var(--header-height) - var(--space-8));
+    overflow-y: auto;
+  }
+
+  .withContents > .body {
+    grid-row: 1;
+  }
+
+  /* The rail scrolls (overflow clips), so draw the focus ring inside the link. */
+  .withContents .contentsLink:focus-visible {
+    outline-offset: -2px;
+  }
+}
+
+/* Contents ---------------------------------------------------------------- */
+.contents {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  border-block: 1px solid var(--color-border);
+}
+
+.contentsList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contentsLink {
+  display: grid;
+  grid-template-columns: 2.5ch minmax(0, 1fr);
+  column-gap: var(--space-3);
+  align-items: baseline;
+  min-height: 44px;
+  padding-block: var(--space-2);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+  text-decoration: none;
+}
+
+.contentsLink:hover {
+  color: var(--color-link-hover);
+}
+
+.contentsLink:hover span:last-child {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.contentsIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 1280px) {
+  .withContents > .contents {
+    padding-top: 0;
+    border-top: 0;
+    border-bottom: 0;
+  }
+
+  /* Fit the label on one line in the narrow rail. */
+  .withContents .contentsLabel {
+    font-size: var(--text-small);
+    letter-spacing: 0.08em;
+  }
+}
+
+/* Closing flourish -------------------------------------------------------- */
+.end {
+  padding-block: var(--space-2);
+}
+
+/* Footer: author and share ------------------------------------------------ */
+.footer {
+  display: grid;
+  gap: var(--space-7);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  max-width: 52ch;
+}
+
+.authorName {
+  margin-top: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-heading);
+}
+
+.authorRole {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.authorBio {
+  color: var(--color-text-muted);
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  color: var(--color-link);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.35em;
+}
+
+.textLink:hover {
+  text-decoration-color: currentColor;
+}
+
+.textLinkIcon {
+  width: 1.15em;
+  height: 1.15em;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.textLink:hover .textLinkIcon {
+  transform: translateX(3px);
+}
+
+.share {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.shareLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .footer {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: var(--space-7);
+  }
+}
+
+/* Related reading --------------------------------------------------------- */
+.relatedList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--color-border);
+}
