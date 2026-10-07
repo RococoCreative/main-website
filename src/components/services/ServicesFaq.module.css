@@ -1,0 +1,176 @@
+/* Swiss split: intro sticks beside the questions on wide screens. */
+.layout {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  row-gap: var(--space-7);
+}
+
+.intro {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.title {
+  max-width: 16ch;
+}
+
+.lead {
+  max-width: 40ch;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-lead);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+.cta {
+}
+
+.list {
+  grid-column: 1 / -1;
+  min-width: 0;
+  border-top: 1px solid var(--color-divider);
+}
+
+@media (min-width: 1024px) {
+  .intro {
+    grid-column: 1 / span 4;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+    align-self: start;
+  }
+
+  .list {
+    grid-column: 6 / span 7;
+  }
+}
+
+.footer {
+  margin-top: clamp(var(--space-8), 8vw, var(--space-10));
+}
+
+.item {
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-height: 44px;
+  padding-block: var(--space-5);
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-heading);
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary::marker {
+  content: "";
+}
+
+.question {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+
+.summary:hover .question {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* Plus when closed, minus when open: shape changes, not just color. */
+.icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-top: -2px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  color: var(--color-primary);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.plus,
+.minus {
+  width: 18px;
+  height: 18px;
+}
+
+.minus {
+  display: none;
+}
+
+.item[open] .plus {
+  display: none;
+}
+
+.item[open] .minus {
+  display: block;
+}
+
+.item[open] .icon {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: var(--measure);
+  padding-bottom: var(--space-6);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+.answer ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-5);
+}
+
+.answer li::marker {
+  color: var(--color-text-muted);
+}
+
+/* Progressive enhancement: smooth open and close where the browser supports
+   animating details content. Others open instantly. Reduced motion: instant. */
+@supports selector(::details-content) {
+  @media (prefers-reduced-motion: no-preference) {
+    .item {
+      interpolate-size: allow-keywords;
+    }
+
+    .item::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height var(--duration-base) var(--ease-out),
+        content-visibility var(--duration-base) allow-discrete;
+    }
+
+    .item[open]::details-content {
+      height: auto;
+    }
+  }
+}

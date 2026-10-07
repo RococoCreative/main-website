@@ -1,0 +1,142 @@
+.timeline {
+  position: relative;
+}
+
+/* Baseline rule: wide screens only (phases sit in one row beneath it). */
+.baseline {
+  display: none;
+}
+
+.phases {
+  display: grid;
+  gap: var(--space-7);
+  list-style: none;
+  padding: 0;
+}
+
+/* Narrow: a vertical rule on the left with a square tick per phase. */
+.phase {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--color-border-strong);
+}
+
+.tick {
+  position: absolute;
+  top: 5px;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  background: var(--color-primary);
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.index {
+  padding-right: var(--space-3);
+  border-right: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.name {
+  font-size: var(--text-h3-fluid);
+}
+
+.summary {
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+
+.fact dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.fact dd {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.footnote {
+  margin-top: var(--space-7);
+  font-size: var(--text-body);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .phases {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+  }
+}
+
+@media (min-width: 1024px) {
+  .baseline {
+    display: block;
+    height: 1px;
+    margin-bottom: var(--space-6);
+    background: var(--color-border-strong);
+  }
+
+  .phases {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .phase {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  /* Ticks sit on the baseline above each phase. */
+  .tick {
+    top: calc(var(--space-6) * -1 - 3px);
+    left: 0;
+  }
+}
+
+/* Multi-column rows: each phase spans four shared row tracks (meta, name,
+   summary, facts), so the deliverable rules line up across a row however long
+   each summary runs. Without subgrid, the facts stay bottom-anchored. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 768px) {
+    .phase {
+      display: grid;
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+    }
+
+    .facts {
+      margin-top: 0;
+    }
+  }
+}

@@ -1,0 +1,292 @@
+/* A drawing sheet: hairline frame, faint drafting grid, mono annotations. */
+.sheet {
+  --module-gap: var(--space-2);
+  --col-gap: clamp(16px, 4.5vw, 48px);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: clamp(var(--space-3), 3vw, var(--space-6));
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background-color: var(--rc-paper);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-border) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 70%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -1px -1px;
+  color: var(--rc-ink);
+}
+
+.titleRow,
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--rc-text-muted);
+}
+
+.titleRow {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.count {
+  color: var(--rc-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Field: three columns of modules with the wiring beneath. */
+.field {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: var(--col-gap);
+}
+
+.wires {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.wire {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+
+.joint {
+  fill: var(--rc-text-muted);
+}
+
+/* Gold traces the sequence. pathLength="1" lets the dash animation ignore real length. */
+.trace {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.column {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.colHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1.3;
+  color: var(--rc-forest);
+}
+
+.colIndex {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--rc-text-muted);
+}
+
+.modules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--module-gap);
+  margin-top: var(--space-5); /* room for the bridging rail (measured at 12px above the first module) */
+}
+
+/* Module states ----------------------------------------------------------- */
+.module {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 56px;
+  padding: 6px 6px 6px var(--space-2);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--rc-paper);
+  color: var(--rc-text-muted);
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+
+.code {
+  padding-right: 18px; /* clears the check mark */
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1.25;
+  color: var(--rc-ink);
+  hyphens: auto;
+  overflow-wrap: break-word;
+  transition: color var(--duration-base) var(--ease-out);
+}
+
+.check {
+  position: absolute;
+  top: 7px;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+/* Selected: forest fill, paper text, and a check mark (never color alone). */
+.module[data-selected="true"] {
+  border-color: var(--rc-forest);
+  background: var(--rc-forest);
+  color: var(--rc-sand);
+}
+
+.module[data-selected="true"] .label {
+  color: var(--rc-paper);
+}
+
+.module[data-selected="true"] .check {
+  opacity: 1;
+  transform: none;
+  color: var(--rc-gold);
+}
+
+/* Start: dashed outline and a "Start" code when the audit is implied, not chosen. */
+.module[data-start="true"] .code {
+  color: var(--rc-forest);
+  font-weight: var(--weight-medium);
+}
+
+.module[data-start="true"][data-selected="false"] {
+  border: 1px dashed var(--rc-forest);
+}
+
+.module[data-start="true"][data-selected="true"] .code {
+  color: var(--rc-sand);
+}
+
+@media (min-width: 640px) {
+  .colHead {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-size: var(--text-body);
+  }
+
+  .label {
+    font-size: var(--text-body);
+  }
+
+  .module {
+    padding: var(--space-3) var(--space-3) var(--space-3);
+    min-height: 64px;
+  }
+
+  .check {
+    top: 12px;
+    right: 10px;
+  }
+}
+
+/* Legend ----------------------------------------------------------------- */
+.legend {
+  justify-content: flex-start;
+  gap: var(--space-2) var(--space-5);
+  list-style: none;
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.key {
+  flex: none;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.keySelected {
+  background: var(--rc-forest);
+}
+
+.keyStart {
+  border: 1px dashed var(--rc-forest);
+  background: var(--rc-paper);
+}
+
+.keyTrace {
+  width: 20px;
+  height: 2px;
+  border-radius: 0;
+  background: var(--color-accent);
+}
+
+/* Motion: new wires fade in, the gold sequence draws itself. Reduced motion
+   shows the final state immediately (tokens collapse to 0ms as well). */
+@media (prefers-reduced-motion: no-preference) {
+  .wire,
+  .joint {
+    animation: wireIn var(--duration-slow) var(--ease-out) both;
+  }
+
+  .trace {
+    animation: trace var(--duration-story) var(--ease-in-out) both;
+  }
+}
+
+@keyframes wireIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes trace {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .module[data-selected="true"] {
+    border-width: 3px;
+  }
+}
