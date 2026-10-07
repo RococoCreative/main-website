@@ -1,0 +1,46 @@
+.eyebrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6em;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .eyebrow {
+    font-size: 13px;
+  }
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.text {
+  color: var(--color-text);
+}
+
+.bracket {
+  color: var(--eyebrow-bracket, currentColor);
+}
+
+/* Gold is decorative on dark canvases only; on light grounds brackets stay muted. */
+[data-theme] .bracket {
+  --eyebrow-bracket: var(--color-accent);
+}
+
+.index {
+  color: var(--color-text-muted);
+  padding-right: 0.4em;
+  border-right: 1px solid var(--color-border);
+  margin-right: 0.2em;
+}
+
+.label {
+  white-space: normal;
+}

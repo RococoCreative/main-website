@@ -1,0 +1,146 @@
+.button {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-primary);
+  --btn-border: transparent;
+  --btn-bg-hover: transparent;
+  --btn-fg-hover: var(--color-primary-hover);
+  --btn-border-hover: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 44px; /* touch target */
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-md);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.button:hover {
+  background: var(--btn-bg-hover);
+  color: var(--btn-fg-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  box-shadow: var(--focus-ring);
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Variants ---------------------------------------------------------------- */
+.primary {
+  --btn-bg: var(--color-primary);
+  --btn-fg: var(--color-on-primary);
+  --btn-border: var(--color-primary);
+  --btn-bg-hover: var(--color-primary-hover);
+  --btn-fg-hover: var(--color-on-primary);
+  --btn-border-hover: var(--color-primary-hover);
+}
+
+.primary:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.primary:active {
+  transform: translateY(0);
+}
+
+.secondary {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-primary);
+  --btn-border: var(--color-primary);
+  --btn-bg-hover: var(--color-primary);
+  --btn-fg-hover: var(--color-on-primary);
+  --btn-border-hover: var(--color-primary);
+}
+
+.ghost {
+  --btn-fg: var(--color-primary);
+  --btn-fg-hover: var(--color-primary-hover);
+  padding-inline: var(--space-2);
+}
+
+.ghost .label {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color var(--duration-base) var(--ease-out);
+}
+
+.ghost:hover .label {
+  text-decoration-color: currentColor;
+}
+
+/* Gold fill always carries Ink text (8.4:1). Never white on gold. */
+.accent {
+  --btn-bg: var(--rc-gold);
+  --btn-fg: var(--rc-ink);
+  --btn-border: var(--rc-gold);
+  --btn-bg-hover: var(--rc-gold-light);
+  --btn-fg-hover: var(--rc-ink);
+  --btn-border-hover: var(--rc-gold-light);
+}
+
+/* Sizes ------------------------------------------------------------------- */
+.md {
+  padding: var(--space-3) var(--space-5);
+}
+
+.lg {
+  min-height: 52px;
+  padding: var(--space-4) var(--space-6);
+}
+
+.pill {
+  border-radius: var(--radius-pill);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.label {
+  display: inline-block;
+}
+
+.arrow {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.button:hover .arrow {
+  transform: translateX(3px);
+}

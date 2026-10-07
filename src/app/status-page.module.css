@@ -1,0 +1,72 @@
+.page {
+  padding-block: clamp(var(--space-9), 14vw, 12rem);
+  min-height: 60vh;
+}
+
+.title {
+  margin-top: var(--space-5);
+  max-width: 18ch;
+}
+
+.lead {
+  margin-top: var(--space-5);
+  max-width: var(--measure-narrow);
+  font-size: var(--text-lead);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  margin-top: var(--space-7);
+}
+
+.link {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.digest {
+  margin-top: var(--space-7);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+.suggestions {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  max-width: 640px;
+}
+
+.suggestionList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  list-style: none;
+  padding: 0;
+}
+
+.suggestionList a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-heading);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-weight: var(--weight-medium);
+}
+
+.suggestionList a:hover {
+  border-bottom-color: var(--color-primary);
+}

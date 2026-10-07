@@ -1,0 +1,59 @@
+.section {
+  position: relative;
+  isolation: isolate;
+}
+
+.default {
+  padding-block: var(--section-pad-y);
+}
+
+.tight {
+  padding-block: clamp(var(--space-7), 6vw, var(--space-9));
+}
+
+.flush {
+  padding-block: 0;
+}
+
+.rule {
+  border-top: 1px solid var(--color-border);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Swiss guides ------------------------------------------------------------ */
+.guides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.guidesInner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--grid-gutter);
+  height: 100%;
+}
+
+.guideCol {
+  border-inline: 1px solid var(--color-border);
+  opacity: 0.55;
+}
+
+.guideCol:nth-child(n + 5) {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .guidesInner {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .guideCol:nth-child(n + 5) {
+    display: block;
+  }
+}

@@ -1,0 +1,54 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 3px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.neutral {
+  background: var(--rc-cream);
+  color: var(--rc-ink);
+}
+
+[data-surface="cream"] .neutral,
+[data-surface="sand"] .neutral {
+  background: var(--rc-paper);
+}
+
+[data-theme] .neutral {
+  background: rgba(233, 225, 212, 0.12);
+  color: var(--color-text);
+}
+
+.outline {
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+}
+
+/* Semantic surface tint + accessible ink text (all ≥ 4.5:1). */
+.success {
+  background: color-mix(in srgb, var(--color-success-bg) 45%, var(--rc-paper));
+  color: var(--color-success-fg);
+}
+
+.error {
+  background: color-mix(in srgb, var(--color-error-bg) 18%, var(--rc-paper));
+  color: var(--color-error-fg);
+}
+
+.warning {
+  /* #8F6A20 drops below 4.5:1 on any gold tint, so warning badges use Ink text. */
+  background: color-mix(in srgb, var(--color-warning-bg) 30%, var(--rc-paper));
+  color: var(--rc-ink);
+}

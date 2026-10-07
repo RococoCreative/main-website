@@ -1,0 +1,126 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition:
+    box-shadow var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+
+.surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.outline {
+  background: transparent;
+  border: 1px solid var(--color-border);
+}
+
+.plain {
+  background: transparent;
+  border-radius: 0;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-surface-sand);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+}
+
+.plain .body {
+  padding: var(--space-5) 0 0;
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: var(--text-h3-fluid);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-heading);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Stretched link: the whole card is the hit area, the title is the name. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.interactive:has(.link:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  box-shadow: var(--focus-ring);
+}
+
+.content {
+  color: var(--color-text-muted);
+}
+
+.content p + p {
+  margin-top: var(--space-3);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.arrow {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--space-4);
+  position: relative;
+  z-index: 2;
+}
+
+.interactive:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.interactive:hover .arrow {
+  transform: translateX(4px);
+}
+
+.interactive.plain:hover {
+  box-shadow: none;
+}

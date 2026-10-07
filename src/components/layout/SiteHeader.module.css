@@ -1,0 +1,238 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--rc-paper) 92%, transparent);
+  backdrop-filter: saturate(1.2) blur(10px);
+  -webkit-backdrop-filter: saturate(1.2) blur(10px);
+  border-bottom: 1px solid transparent;
+}
+
+/* Hairline + soft shadow fade in over the first 64px of scroll. Pure CSS. */
+@supports (animation-timeline: scroll()) {
+  .header {
+    animation: settle linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 64px;
+  }
+}
+
+@supports not (animation-timeline: scroll()) {
+  .header {
+    border-bottom-color: var(--rc-border);
+  }
+}
+
+@keyframes settle {
+  to {
+    border-bottom-color: var(--rc-border);
+    box-shadow: var(--shadow-xs);
+  }
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  height: var(--header-height);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  margin-left: calc(var(--space-2) * -1);
+  border-radius: var(--radius-sm);
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+}
+
+@media (min-width: 768px) {
+  .logo {
+    height: 44px;
+  }
+}
+
+/* Desktop nav ------------------------------------------------------------- */
+.desktopNav {
+  display: none;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+  padding: 0;
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  color: var(--rc-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: 8px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.navLink:hover {
+  color: var(--rc-forest);
+}
+
+.navLink:hover::after,
+.navLink[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.navLink[aria-current="page"] {
+  color: var(--rc-forest);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.headerCta {
+  display: none;
+}
+
+@media (min-width: 960px) {
+  .desktopNav {
+    display: block;
+    margin-inline: auto;
+  }
+
+  .headerCta {
+    display: inline-flex;
+  }
+}
+
+/* Mobile ------------------------------------------------------------------ */
+.mobile {
+  display: block;
+}
+
+@media (min-width: 960px) {
+  .mobile {
+    display: none;
+  }
+}
+
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--rc-border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--rc-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.menuButton:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.menuIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.mobilePanel {
+  position: fixed;
+  inset: var(--header-height) 0 0 0;
+  z-index: 49;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-7);
+  padding: var(--space-7) var(--container-pad) var(--space-8);
+  overflow-y: auto;
+  background: var(--rc-paper);
+  border-top: 1px solid var(--rc-border);
+}
+
+.mobilePanel[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mobilePanel[data-open="true"] {
+    animation: panelIn var(--duration-slow) var(--ease-out);
+  }
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.mobileList {
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid var(--rc-border);
+}
+
+.mobileList li {
+  border-bottom: 1px solid var(--rc-border);
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  color: var(--rc-forest);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.4rem + 2vw, 2.5rem);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-tight);
+  text-decoration: none;
+}
+
+.mobileLink[aria-current="page"]::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rc-gold);
+}
+
+.mobileCta {
+  padding-bottom: env(safe-area-inset-bottom);
+}

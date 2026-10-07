@@ -1,0 +1,240 @@
+/* =============================================================================
+   ROCOCO CREATIVE: DESIGN TOKENS (web build)
+   Source of truth: docs/brand/tokens.reference.css (Design System v1.2).
+   Sections 1-8 mirror the reference verbatim except the font stacks, which point
+   at the self-hosted next/font families. Section 9 holds site-specific
+   extensions, each documented with the reason it exists.
+   Rule: components reference var(--token). Never hardcode a hex in a component.
+   ============================================================================= */
+
+:root {
+  /* 1. BRAND COLORS (Brand Kit v1.0) ---------------------------------------- */
+  --rc-forest: #39443c;
+  --rc-forest-dark: #2e3630;
+  --rc-sand: #e9e1d4;
+  --rc-gold: #d6b563;
+  --rc-gold-dark: #8f6a20; /* accessible gold for small text on paper only (4.86:1) */
+  --rc-gold-light: #e3c77e; /* hover state of gold on dark canvases (from reference dark theme) */
+
+  --rc-red: #d46a6a;
+  --rc-green: #accfc0;
+  --rc-yellow: #d6b563;
+
+  --rc-error-text: #b84a4a; /* 5.02:1 on paper */
+  --rc-success-text: #3f6b54; /* 6.00:1 on paper */
+  --rc-warning-text: #8f6a20; /* 4.86:1 on paper */
+
+  /* 2. NEUTRAL RAMP (Ink to Paper) ------------------------------------------ */
+  --rc-paper: #fdfdfd;
+  --rc-paper-alt: #f3f3f1;
+  --rc-cream: #f0ede6;
+  --rc-sand-100: #e9e1d4;
+  --rc-border: #e4dfd6;
+  --rc-divider: #d8d2c7;
+  --rc-gray: #858585; /* large / decorative text only (3.6:1) */
+  --rc-text-muted: #6b6660;
+  --rc-ink-700: #3c3c3c;
+  --rc-ink: #1f1f1f;
+  --rc-ink-950: #1c1c1c;
+
+  /* 3. SEMANTIC ROLE TOKENS (components consume these) ---------------------- */
+  --color-bg: var(--rc-paper);
+  --color-bg-alt: var(--rc-paper-alt);
+  --color-surface: var(--rc-cream);
+  --color-surface-sand: var(--rc-sand-100);
+  --color-text: var(--rc-ink);
+  --color-text-muted: var(--rc-text-muted);
+  --color-heading: var(--rc-forest);
+  --color-primary: var(--rc-forest);
+  --color-primary-hover: var(--rc-forest-dark);
+  --color-on-primary: var(--rc-paper);
+  --color-accent: var(--rc-gold);
+  --color-link: var(--rc-forest);
+  --color-link-hover: var(--rc-forest-dark);
+  --color-border: var(--rc-border);
+  --color-focus-ring: rgba(57, 68, 60, 0.4);
+
+  --color-success-bg: var(--rc-green);
+  --color-success-fg: var(--rc-success-text);
+  --color-error-bg: var(--rc-red);
+  --color-error-fg: var(--rc-error-text);
+  --color-warning-bg: var(--rc-yellow);
+  --color-warning-fg: var(--rc-warning-text);
+
+  /* 4. TYPOGRAPHY ------------------------------------------------------------
+     Canonical: Goldenbook (display) + Halcom (sans) + Inter (body).
+     "Goldenbook" and "Halcom" resolve only when the licensed brand-font
+     stylesheet is loaded (see README > Brand fonts). Otherwise the stack falls
+     through to the self-hosted Google equivalents set by next/font in layout.tsx. */
+  --font-display: "Goldenbook", var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Halcom", var(--font-instrument), "Instrument Sans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-fragment), "Fragment Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-h1: 48px;
+  --text-h2: 32px;
+  --text-h3: 24px;
+  --text-h4: 20px;
+  --text-h5: 16px;
+  --text-h6: 14px;
+  --text-body: 14px; /* minimum reading size */
+  --text-small: 12px;
+  --text-label: 14px;
+  --text-h1-fluid: clamp(2.5rem, 1.6rem + 3.2vw, 4.5rem);
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-display: -0.02em;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-label: 0.08em;
+  --tracking-eyebrow: 0.14em;
+
+  /* 5. SPACING (8pt base) --------------------------------------------------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --container-max: 1200px;
+  --container-pad: clamp(1rem, 5vw, 4rem);
+  --section-gap: var(--space-9);
+
+  /* 6. RADIUS --------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* 7. ELEVATION ------------------------------------------------------------ */
+  --shadow-xs: 0 1px 2px rgba(31, 31, 31, 0.04);
+  --shadow-sm: 0 1px 3px rgba(31, 31, 31, 0.06), 0 1px 2px rgba(31, 31, 31, 0.04);
+  --shadow-md: 0 4px 16px rgba(57, 68, 60, 0.08);
+  --shadow-lg: 0 12px 32px rgba(57, 68, 60, 0.12);
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+
+  /* 8. MOTION --------------------------------------------------------------- */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* 9. SITE EXTENSIONS (web build only) --------------------------------------
+     Accessibility: the brand hairline (#E4DFD6, 1.3:1) cannot be the only edge
+     of a form control (WCAG 1.4.11 needs 3:1). Inputs use --color-border-strong. */
+  --rc-border-strong: #8c857a; /* 3.59:1 on paper */
+  --color-border-strong: var(--rc-border-strong);
+  --color-divider: var(--rc-divider);
+
+  /* Accessibility: #6B6660 on Sand is 4.38:1 (fails AA). Sand surfaces swap in
+     this deeper muted tone (5.69:1 on sand, 6.31:1 on cream). */
+  --rc-text-muted-deep: #5a554f;
+
+  /* Long-form reading: body copy sits at 16px (above the 14px floor) with the
+     kit's 1.65 leading. Intro paragraphs use the fluid lead size. */
+  --text-body-lg: 16px;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-h2-fluid: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
+  --text-h3-fluid: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  /* Hero statement on the home page only. Larger than H1 by design. */
+  --text-display: clamp(2.75rem, 1.5rem + 5.2vw, 6rem);
+  --text-numeral: clamp(3rem, 2rem + 4vw, 5.5rem);
+
+  /* Swiss grid */
+  --grid-columns: 12;
+  --grid-gutter: clamp(16px, 2.2vw, 32px);
+  --measure: 64ch;
+  --measure-narrow: 44ch;
+  --header-height: 72px;
+  --section-pad-y: clamp(var(--space-8), 9vw, var(--space-10));
+
+  --duration-story: 700ms; /* long, calm reveals for storytelling sequences */
+}
+
+/* Dark / ink canvas (reference: "For dark backgrounds, use light versions.") */
+[data-theme="dark"] {
+  --color-bg: var(--rc-ink-950);
+  --color-bg-alt: #232624;
+  --color-surface: var(--rc-forest);
+  --color-surface-sand: #2e3630;
+  --color-text: var(--rc-sand);
+  --color-text-muted: #b7ae9f; /* 7.77:1 on ink-950 */
+  --color-heading: var(--rc-paper);
+  --color-primary: var(--rc-gold);
+  --color-primary-hover: var(--rc-gold-light);
+  --color-on-primary: var(--rc-ink);
+  --color-accent: var(--rc-gold);
+  --color-link: var(--rc-gold);
+  --color-link-hover: var(--rc-gold-light);
+  --color-border: rgba(233, 225, 212, 0.16);
+  --color-border-strong: rgba(233, 225, 212, 0.5);
+  --color-divider: rgba(233, 225, 212, 0.24);
+  --color-focus-ring: rgba(214, 181, 99, 0.55);
+}
+
+/* Forest canvas: site extension of the dark theme for brand-forward sections.
+   Muted text is lifted to #C9C1B3 (5.69:1 on forest) because #B7AE9F is only 4.63:1. */
+[data-theme="forest"] {
+  --color-bg: var(--rc-forest);
+  --color-bg-alt: var(--rc-forest-dark);
+  --color-surface: var(--rc-forest-dark);
+  --color-surface-sand: var(--rc-forest-dark);
+  --color-text: var(--rc-sand);
+  --color-text-muted: #c9c1b3;
+  --color-heading: var(--rc-paper);
+  --color-primary: var(--rc-gold);
+  --color-primary-hover: var(--rc-gold-light);
+  --color-on-primary: var(--rc-ink);
+  --color-accent: var(--rc-gold);
+  --color-link: var(--rc-gold);
+  --color-link-hover: var(--rc-gold-light);
+  --color-border: rgba(233, 225, 212, 0.18);
+  --color-border-strong: rgba(233, 225, 212, 0.55);
+  --color-divider: rgba(233, 225, 212, 0.26);
+  --color-focus-ring: rgba(214, 181, 99, 0.6);
+}
+
+/* Warm sand canvas */
+[data-surface="sand"] {
+  --color-bg: var(--rc-sand-100);
+  --color-surface: var(--rc-cream);
+  --color-text-muted: var(--rc-text-muted-deep);
+}
+
+[data-surface="cream"] {
+  --color-bg: var(--rc-cream);
+  --color-surface: var(--rc-paper);
+  --color-text-muted: var(--rc-text-muted-deep);
+}
+
+[data-surface="alt"] {
+  --color-bg: var(--rc-paper-alt);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-story: 0ms;
+  }
+}
