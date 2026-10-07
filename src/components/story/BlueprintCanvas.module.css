@@ -1,0 +1,327 @@
+/* =============================================================================
+   BlueprintCanvas: a drawing sheet. Geometry lives in viewBox units (480 x 528);
+   HTML labels are positioned in percentages of the same box and sized with
+   container query units so the whole sheet scales as one drawing.
+   ============================================================================= */
+
+.sheet {
+  /* Pointer state, written by the client controller as unitless viewBox values. */
+  --cx: 240;
+  --cy: 256;
+  --col: 5;
+
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 480 / 528;
+}
+
+.sheet[data-interactive] .stage {
+  cursor: crosshair;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.svg :is(line, path, rect) {
+  fill: none;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Line weights and colors (tokens only) ------------------------------------ */
+.grid {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.frame {
+  stroke: var(--color-divider);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.tick {
+  stroke: var(--color-divider);
+  stroke-width: 1;
+}
+
+.reg,
+.dim {
+  stroke: var(--color-text-muted);
+  stroke-width: 0.75;
+}
+
+.cut {
+  stroke: var(--color-border-strong);
+  stroke-width: 0.75;
+  stroke-dasharray: 10 4 2 4;
+}
+
+.svg .mark {
+  fill: var(--color-text-muted);
+  stroke: none;
+}
+
+.ground {
+  stroke: var(--color-heading);
+  stroke-width: 1.75;
+}
+
+.profile {
+  stroke: var(--color-heading);
+  stroke-width: 1.25;
+}
+
+.detail {
+  stroke: var(--color-heading);
+  stroke-width: 0.75;
+  stroke-opacity: 0.7;
+}
+
+/* Gold is ornament only: the leader line and its dot. Never text. */
+.leader {
+  stroke: var(--color-accent);
+  stroke-width: 1;
+}
+
+.svg .leaderDot {
+  fill: var(--color-accent);
+  stroke: none;
+}
+
+/* The artwork is never recolored or distorted: width from the layout, height auto. */
+.ornament {
+  position: absolute;
+  height: auto;
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+
+/* Labels ------------------------------------------------------------------- */
+.label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: clamp(8px, 2.4cqi, 12px);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+/* Dimension figures interrupt their line, as on a drawing. */
+.knock {
+  padding: 0.3em 0.6em;
+  background: var(--color-bg);
+}
+
+.bubble {
+  padding: 0;
+}
+
+/* Anchored by its bottom-right corner on the leader's horizontal run. */
+.annotation {
+  transform: translate(-100%, -100%);
+  padding-bottom: 0.35em;
+  color: var(--color-text);
+}
+
+/* Title block ---------------------------------------------------------------- */
+.titleBlock {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  font-size: clamp(8px, 2.2cqi, 11px);
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.titleBlock span {
+  padding: 1.1em 1.3em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.titleBlock span + span {
+  border-left: 1px solid var(--color-border);
+}
+
+@container (max-width: 340px) {
+  .titleBlock {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .titleBlock span:last-child {
+    display: none;
+  }
+}
+
+/* Drafting crosshair (fine pointers, motion allowed) ------------------------ */
+.cursor {
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+  pointer-events: none;
+}
+
+.svg .crossV,
+.svg .crossH,
+.svg .crossBox {
+  stroke: var(--color-heading);
+  stroke-width: 1;
+  transition: transform 140ms var(--ease-out);
+}
+
+.svg .crossV,
+.svg .crossH {
+  stroke-opacity: 0.45;
+}
+
+.svg .crossV {
+  transform: translateX(calc(var(--cx) * 1px));
+}
+
+.svg .crossH {
+  transform: translateY(calc(var(--cy) * 1px));
+}
+
+.svg .crossBox {
+  fill: var(--color-bg);
+  transform: translate(calc(var(--cx) * 1px), calc(var(--cy) * 1px));
+}
+
+.svg .colFill {
+  fill: var(--color-surface-sand);
+  stroke: none;
+  opacity: 0;
+  transform: translateX(calc(var(--col) * 32px));
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.readout {
+  --ox: 10px;
+  --oy: calc(-100% - 10px);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 6px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(
+    calc(var(--cx) * 100cqi / 480 + var(--ox)),
+    calc(var(--cy) * 100cqi / 480 + var(--oy))
+  );
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform 140ms var(--ease-out);
+}
+
+.sheet[data-flip~="x"] .readout {
+  --ox: calc(-100% - 10px);
+}
+
+.sheet[data-flip~="y"] .readout {
+  --oy: 10px;
+}
+
+.sheet[data-pointer="on"] .cursor,
+.sheet[data-pointer="on"] .readout,
+.sheet[data-pointer="on"] .svg .colFill {
+  opacity: 1;
+}
+
+/* Draw-in ------------------------------------------------------------------
+   Plays from the first paint of the server HTML, only when motion is allowed.
+   Lines grow from an origin set inline (start, center, or end), which keeps
+   non-scaling hairlines crisp throughout. "armed" holds the undrawn state
+   while the sheet is off screen; "play" restarts the sequence. */
+.draw {
+  transform-box: view-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .draw {
+    animation: bp-draw var(--t, 520ms) var(--ease-out) var(--d, 0ms) both;
+  }
+
+  .fade {
+    animation: bp-fade var(--t, 420ms) var(--ease-out) var(--d, 0ms) both;
+  }
+
+  .ornament {
+    animation: bp-ornament 560ms var(--ease-out) 1860ms both;
+  }
+
+  .sheet[data-state="armed"] :is(.draw, .fade, .ornament) {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@keyframes bp-draw {
+  from {
+    transform: scale(0);
+  }
+}
+
+@keyframes bp-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes bp-ornament {
+  from {
+    opacity: 0;
+    transform: translateY(6%) scale(0.94);
+  }
+}
+
+@media print {
+  .sheet :is(.draw, .fade, .ornament) {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .cursor,
+  .readout {
+    display: none;
+  }
+}

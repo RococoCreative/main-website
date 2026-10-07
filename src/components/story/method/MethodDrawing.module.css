@@ -1,0 +1,235 @@
+/* =============================================================================
+   Method elevation drawing.
+
+   State lives on the .canvas wrapper, never on the SVG, so the server-rendered
+   drawing is styled by CSS alone:
+     data-step="1..4"      current phase; earlier layers settle to a quiet ink
+     data-motion="static"  every included layer drawn (server HTML, reduced motion)
+     data-motion="build"   layers after the current one wait, undrawn
+     data-animate          transitions on (set after the first client frame)
+     data-scroll-draw      small-screen plates: the current layer draws in on scroll
+
+   Draw-in uses pathLength="1" with a 1 1 dash. With non-scaling strokes, Chromium
+   applies dash lengths in screen pixels, so the drawing must never render larger
+   than its viewBox (scale <= 1). .drawing caps its width at 600px for that reason.
+   ============================================================================= */
+
+.canvas {
+  --method-ink-current: var(--color-heading);
+  --method-ink-done: var(--color-border-strong);
+  --method-surface: var(--color-surface);
+}
+
+.drawing {
+  --method-delay: 0ms;
+
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+/* Layers ------------------------------------------------------------------ */
+
+.layer {
+  color: var(--method-ink-done);
+}
+
+.canvas[data-step="1"] .layer[data-layer="1"],
+.canvas[data-step="2"] .layer[data-layer="2"],
+.canvas[data-step="3"] .layer[data-layer="3"],
+.canvas[data-step="4"] .layer[data-layer="4"] {
+  color: var(--method-ink-current);
+}
+
+/* Line work --------------------------------------------------------------- */
+
+.stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1px;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+
+.regular {
+  stroke-width: 1px;
+}
+
+.fine {
+  stroke-opacity: 0.6;
+}
+
+.heavy {
+  stroke-width: 1.5px;
+}
+
+/* Centre line (long dash, dot) and setting-out guide (short dash). */
+.center {
+  stroke-dasharray: 14 3 2 3;
+}
+
+.guide {
+  stroke-dasharray: 2 4;
+}
+
+/* Gold line work at the crown: the drawing's single ornament. */
+.ornament {
+  stroke: var(--color-accent);
+  stroke-width: 1.25px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Fills ------------------------------------------------------------------- */
+
+/* Opaque mask in the stage colour: a section cut hides what lies behind it. */
+.surface {
+  fill: var(--method-surface);
+}
+
+/* .hatch takes its fill from the url(#pattern) attribute. */
+.hatch {
+  fill-opacity: 0.85;
+}
+
+.hatchLine {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.6;
+}
+
+.tint {
+  fill: currentColor;
+  fill-opacity: 0.07;
+}
+
+.ink {
+  fill: currentColor;
+}
+
+/* Labels ------------------------------------------------------------------ */
+
+.labels {
+  fill: currentColor;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
+/* Stagger steps within a layer. */
+.d0 {
+  --method-delay: 0ms;
+}
+
+.d1 {
+  --method-delay: 160ms;
+}
+
+.d2 {
+  --method-delay: 320ms;
+}
+
+.d3 {
+  --method-delay: 480ms;
+}
+
+.d4 {
+  --method-delay: 640ms;
+}
+
+/* =============================================================================
+   Motion. Everything below is opt-in: with reduced motion (or before the client
+   confirms it may animate) the drawing is complete and still.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Stage: layers after the current one wait, undrawn ------------------------ */
+  .canvas[data-motion="build"] .draw {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 0;
+  }
+
+  .canvas[data-motion="build"][data-step="1"] .layer[data-layer="1"] ~ .layer .draw,
+  .canvas[data-motion="build"][data-step="2"] .layer[data-layer="2"] ~ .layer .draw,
+  .canvas[data-motion="build"][data-step="3"] .layer[data-layer="3"] ~ .layer .draw {
+    stroke-dashoffset: 1;
+  }
+
+  .canvas[data-motion="build"][data-step="1"] .layer[data-layer="1"] ~ .layer .fade,
+  .canvas[data-motion="build"][data-step="2"] .layer[data-layer="2"] ~ .layer .fade,
+  .canvas[data-motion="build"][data-step="3"] .layer[data-layer="3"] ~ .layer .fade {
+    opacity: 0;
+  }
+
+  .canvas[data-animate] .layer {
+    transition: color var(--duration-slow) var(--ease-out);
+  }
+
+  .canvas[data-animate] .draw {
+    transition: stroke-dashoffset var(--duration-story) var(--ease-in-out) var(--method-delay);
+  }
+
+  .canvas[data-animate] .fade {
+    transition: opacity var(--duration-slow) var(--ease-out) calc(var(--method-delay) + 160ms);
+  }
+
+  /* Scrolling back up: later layers lift away promptly and together. */
+  .canvas[data-animate][data-step="1"] .layer[data-layer="1"] ~ .layer :is(.draw, .fade),
+  .canvas[data-animate][data-step="2"] .layer[data-layer="2"] ~ .layer :is(.draw, .fade),
+  .canvas[data-animate][data-step="3"] .layer[data-layer="3"] ~ .layer :is(.draw, .fade) {
+    transition-duration: var(--duration-slow);
+    transition-delay: 0ms;
+  }
+}
+
+/* Plates (below 1024px): CSS scroll-driven, zero JavaScript. Browsers without
+   scroll timelines simply show the finished plate. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .canvas[data-scroll-draw] {
+      view-timeline-name: --method-plate;
+      view-timeline-axis: block;
+      view-timeline-inset: 0px;
+    }
+
+    .canvas[data-scroll-draw][data-step="1"] .layer[data-layer="1"] .draw,
+    .canvas[data-scroll-draw][data-step="2"] .layer[data-layer="2"] .draw,
+    .canvas[data-scroll-draw][data-step="3"] .layer[data-layer="3"] .draw,
+    .canvas[data-scroll-draw][data-step="4"] .layer[data-layer="4"] .draw {
+      stroke-dasharray: 1 1;
+      animation: method-draw linear both;
+      animation-timeline: --method-plate;
+      animation-range: entry 25% cover 50%;
+    }
+
+    .canvas[data-scroll-draw][data-step="1"] .layer[data-layer="1"] .fade,
+    .canvas[data-scroll-draw][data-step="2"] .layer[data-layer="2"] .fade,
+    .canvas[data-scroll-draw][data-step="3"] .layer[data-layer="3"] .fade,
+    .canvas[data-scroll-draw][data-step="4"] .layer[data-layer="4"] .fade {
+      animation: method-fade linear both;
+      animation-timeline: --method-plate;
+      animation-range: entry 60% cover 50%;
+    }
+  }
+}
+
+@keyframes method-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes method-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

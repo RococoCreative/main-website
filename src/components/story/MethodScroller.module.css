@@ -1,0 +1,247 @@
+/* =============================================================================
+   MethodScroller layout: sticky stage (desktop) + four phase panels.
+   ============================================================================= */
+
+/* Lets the stage's rail read the panels' scroll timelines (sibling subtrees). */
+.root {
+  timeline-scope: --method-p1, --method-p2, --method-p3, --method-p4;
+}
+
+/* Stage column ---------------------------------------------------------------- */
+
+.stageCol {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .stageCol {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+  }
+}
+
+/* Panels ---------------------------------------------------------------------- */
+
+.panels {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel {
+  padding-block: var(--space-7);
+  border-top: 1px solid var(--color-border);
+}
+
+.panel:first-child {
+  padding-top: var(--space-6);
+}
+
+.panel:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Each panel names a view timeline for the rail fill. */
+.track1,
+.track2,
+.track3,
+.track4 {
+  view-timeline-axis: block;
+  view-timeline-inset: 0px;
+}
+
+.track1 {
+  view-timeline-name: --method-p1;
+}
+
+.track2 {
+  view-timeline-name: --method-p2;
+}
+
+.track3 {
+  view-timeline-name: --method-p3;
+}
+
+.track4 {
+  view-timeline-name: --method-p4;
+}
+
+/* Compact plate (below 1024px) -------------------------------------------------- */
+
+.plate {
+  --color-text-muted: var(--rc-text-muted-deep);
+
+  margin-bottom: var(--space-6);
+  padding: var(--space-4) var(--space-4) var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.plateHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.plateTicks {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plateTick {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--color-border-strong);
+}
+
+.plateTick[data-reached] {
+  background: var(--color-heading);
+  border-color: var(--color-heading);
+}
+
+/* Never above the drawing's 600px viewBox width (see MethodDrawing.module.css). */
+.plateCanvas svg {
+  max-width: min(30rem, 600px);
+}
+
+/* Copy ------------------------------------------------------------------------ */
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.title {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  letter-spacing: var(--tracking-tight);
+}
+
+.summary {
+  max-width: 46ch;
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+/* Spec sheet: hairline rows, mono labels. */
+.spec {
+  align-self: stretch;
+  margin: var(--space-2) 0 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.specRow {
+  display: grid;
+  gap: var(--space-1) var(--space-5);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.specRow:last-child {
+  border-bottom: 0;
+}
+
+@container (min-width: 26rem) {
+  .specRow {
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+  }
+}
+
+.specLabel {
+  padding-top: 0.2em;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.specValue {
+  margin: 0;
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.deliverable {
+  font-weight: var(--weight-medium);
+  color: var(--color-heading);
+}
+
+.activities {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activity {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.code {
+  flex: none;
+  min-width: 2.5em;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* Tablet: plate and copy side by side on the 12-column grid. -------------------- */
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .panel {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+    align-items: start;
+  }
+
+  .plate {
+    grid-column: 1 / span 5;
+    margin-bottom: 0;
+  }
+
+  .copy {
+    grid-column: 7 / span 6;
+  }
+}
+
+/* Desktop: tall panels give each phase a deliberate stretch of scroll. ------------ */
+
+@media (min-width: 1024px) {
+  .plate {
+    display: none;
+  }
+
+  .panel,
+  .panel:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80vh;
+    padding-block: var(--space-8);
+  }
+}

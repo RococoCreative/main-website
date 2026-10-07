@@ -1,0 +1,90 @@
+/* =============================================================================
+   LeadFlowDemo: server-rendered framing (intro and the two-scenario summary).
+   Layout and controls live in leadflow/LeadFlowPlayer.module.css. The player
+   root carries data-mode, which highlights the selected scenario here.
+   ============================================================================= */
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.lead {
+  max-width: var(--measure);
+  font-size: var(--text-lead);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+}
+
+.scenarios {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scenario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-border);
+  transition: border-color var(--duration-base) var(--ease-out);
+}
+
+/* Gold rule beside the scenario currently selected (ornament only: the
+   toggle buttons carry the selected state for assistive tech). */
+[data-mode="without"] .scenario[data-scenario="without"],
+[data-mode="with"] .scenario[data-scenario="with"] {
+  border-left-color: var(--color-accent);
+}
+
+.name {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--text-h5);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-heading);
+}
+
+.letter {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.result {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.resultLabel {
+  margin-right: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* The summary slot is a size container: two columns when it is wide enough. */
+@container (min-width: 560px) {
+  .scenarios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+  }
+}

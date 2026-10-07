@@ -1,0 +1,460 @@
+/* =============================================================================
+   Lead pipeline diagram.
+   Vertical (default, narrow) and horizontal (own width >= 720px) layouts.
+   Every state is carried by text in the markup; colour, dashes, and the moving
+   token only reinforce it. Keyframes use longhand animation properties so the
+   CSS Modules hash on the animation name always matches.
+   ============================================================================= */
+
+.frame {
+  container-type: inline-size;
+}
+
+.pipeline {
+  --marker: 32px;
+  --annot: 22px;
+  --trace: var(--color-text-muted);
+  --trace-duration: 700ms;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* With a system, the gold accent traces the path. Without, a neutral line. */
+.pipeline[data-mode="with"] {
+  --trace: var(--color-accent);
+}
+
+/* Stage ------------------------------------------------------------------- */
+.node {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--marker) minmax(0, 1fr);
+  column-gap: var(--space-4);
+  align-content: start;
+  padding-bottom: var(--space-5);
+}
+
+.node:last-child {
+  padding-bottom: 0;
+}
+
+.marker {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: start;
+  display: grid;
+  place-items: center;
+  width: var(--marker);
+  height: var(--marker);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+
+.marker svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Resting token: a ring around the stage the lead has reached. */
+.marker::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid var(--trace);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.node[data-current="live"] .marker::after,
+.node[data-current="stalled"] .marker::after {
+  opacity: 1;
+}
+
+.node[data-current="stalled"] .marker::after {
+  border-style: dashed;
+  border-color: var(--color-text);
+}
+
+.node[data-state="done"] .marker {
+  border-color: var(--color-text);
+}
+
+.pipeline[data-mode="with"] .node[data-state="done"] .marker {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.node[data-state="late"] .marker {
+  border-style: dashed;
+  border-color: var(--color-text);
+}
+
+.node[data-state="lost"] .marker {
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.head {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  padding-top: 6px;
+  min-width: 0;
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-heading);
+  transition: color var(--duration-base) var(--ease-out);
+}
+
+/* Dimmed stages stay readable: muted tokens are AA on every surface. */
+.node[data-state="lost"] .label {
+  color: var(--color-text-muted);
+}
+
+.status {
+  grid-column: 2;
+  grid-row: 2;
+  min-height: 1.6em; /* reserved so a status never shifts the layout */
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.node[data-state="late"] .status,
+.node[data-state="lost"] .status {
+  color: var(--color-text);
+}
+
+/* Link label (e.g. "Waiting in inbox: 14 hours"). Space is reserved only on
+   stages whose outgoing link carries a label in some scenario. */
+.annot {
+  display: none;
+}
+
+.node[data-labelled] .annot {
+  grid-column: 2;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 1.6em;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.annotGlyph {
+  flex: none;
+  width: 14px;
+  height: 14px;
+}
+
+/* Hairline between this stage and the next -------------------------------- */
+.connector {
+  position: absolute;
+  top: calc(var(--marker) + 4px);
+  bottom: 4px;
+  left: calc(var(--marker) / 2 - 6px);
+  width: 12px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.connector::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: var(--color-divider);
+}
+
+/* The path breaks: a dashed gap. */
+.connector[data-state="waiting"]::before,
+.connector[data-state="broken"]::before {
+  background: linear-gradient(to bottom, var(--color-text) 0 4px, transparent 4px 100%);
+  background-size: 100% 9px;
+}
+
+/* Never reached: a faint dotted line. */
+.connector[data-state="dim"]::before {
+  background: linear-gradient(to bottom, var(--color-border-strong) 0 2px, transparent 2px 100%);
+  background-size: 100% 6px;
+}
+
+/* Traced segment: slides in from the previous stage with the token at its head. */
+.trace {
+  position: absolute;
+  inset: 0;
+  animation-name: draw-y;
+  animation-duration: var(--trace-duration);
+  animation-timing-function: var(--ease-in-out);
+  animation-fill-mode: both;
+}
+
+.trace::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--trace);
+}
+
+.trace::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--trace);
+  animation-name: token-fade;
+  animation-duration: var(--trace-duration);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+/* Crossing the gap: the token travels, the dashes stay. */
+.connector[data-state="broken"] .trace::before {
+  display: none;
+}
+
+.connector[data-state="broken"] .trace::after {
+  background: var(--color-text);
+}
+
+@keyframes draw-y {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes draw-x {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes token-fade {
+  0%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes march-y {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 9px;
+  }
+}
+
+@keyframes march-x {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 9px 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* Horizontal layout -------------------------------------------------------- */
+@container (min-width: 720px) {
+  .pipeline {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .node {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--annot) var(--marker) auto auto;
+    padding-right: var(--space-3);
+    padding-bottom: 0;
+  }
+
+  .marker {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .head {
+    grid-column: 1;
+    grid-row: 3;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 2px;
+    padding-top: var(--space-3);
+  }
+
+  .status {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: var(--space-1);
+  }
+
+  /* The label sits in the reserved top row, over the gap it describes.
+     Grid lines reset to auto so the containing block is the stage's padding
+     box, not a grid area. */
+  .node[data-labelled] .annot {
+    grid-column: auto;
+    grid-row: auto;
+    position: absolute;
+    top: 0;
+    left: calc(var(--marker) + var(--space-2));
+    height: var(--annot);
+    min-height: 0;
+    white-space: nowrap;
+  }
+
+  .connector {
+    top: calc(var(--annot) + var(--marker) / 2 - 6px);
+    right: 4px;
+    bottom: auto;
+    left: calc(var(--marker) + 4px);
+    width: auto;
+    height: 12px;
+  }
+
+  .connector::before {
+    top: 50%;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  .connector[data-state="waiting"]::before,
+  .connector[data-state="broken"]::before {
+    background: linear-gradient(to right, var(--color-text) 0 4px, transparent 4px 100%);
+    background-size: 9px 100%;
+  }
+
+  .connector[data-state="dim"]::before {
+    background: linear-gradient(to right, var(--color-border-strong) 0 2px, transparent 2px 100%);
+    background-size: 6px 100%;
+  }
+
+  .trace {
+    animation-name: draw-x;
+  }
+
+  .trace::before {
+    top: 50%;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: auto;
+    height: 2px;
+    margin-top: -1px;
+    margin-left: 0;
+  }
+
+  .trace::after {
+    top: 50%;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    margin-top: -4px;
+    margin-left: 0;
+  }
+}
+
+/* Motion: only when the visitor allows it --------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .connector[data-state="waiting"]::before {
+    animation-name: march-y;
+    animation-duration: 900ms;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .pipeline[data-playing] .node[data-current="live"] .marker::after {
+    animation-name: pulse;
+    animation-duration: 1800ms;
+    animation-timing-function: var(--ease-out);
+    animation-iteration-count: infinite;
+  }
+
+  @container (min-width: 720px) {
+    .connector[data-state="waiting"]::before {
+      animation-name: march-x;
+    }
+  }
+}
+
+/* Reduced motion: final state only, no travelling token. */
+@media (prefers-reduced-motion: reduce) {
+  .trace {
+    animation: none;
+  }
+
+  .trace::after {
+    display: none;
+  }
+}

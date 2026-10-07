@@ -1,0 +1,196 @@
+/* =============================================================================
+   Lead-flow demo frame: layout and controls.
+   The frame is a size container, so the demo lays itself out by its own width
+   (it may sit in a full-width section or a narrower column).
+   Below 900px:  intro, summary, controls, pipeline, log, caption (one column).
+   From 900px:   intro, controls, pipeline, then log (7 cols) beside summary (4 cols).
+   ============================================================================= */
+
+.frame {
+  container-type: inline-size;
+}
+
+.figure {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--space-6);
+  margin: 0;
+}
+
+.intro,
+.summary,
+.controls,
+.pipe,
+.log,
+.caption {
+  min-width: 0;
+}
+
+.summary {
+  container-type: inline-size;
+}
+
+/* Controls ----------------------------------------------------------------- */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.toggle {
+  display: flex;
+  flex: 1 1 30rem;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  max-width: 36rem;
+  padding: var(--space-1);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+.option {
+  display: inline-flex;
+  flex: 1 1 13rem;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-md) - 2px);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+  line-height: 1.25;
+  text-align: left;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.option:hover {
+  background: color-mix(in srgb, var(--color-text) 7%, transparent);
+}
+
+/* Pressed: filled radio dot (shape, not colour alone) plus a surface fill. */
+.option[aria-pressed="true"] {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-heading);
+}
+
+.indicator {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.indicator::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: scale(0);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.option[aria-pressed="true"] .indicator::after {
+  transform: scale(1);
+}
+
+/* Forced colors strip backgrounds: paint the selected dot in a system color. */
+@media (forced-colors: active) {
+  .indicator::after {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+}
+
+.letter {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+/* Wide enough for every label, so switching labels never resizes the button. */
+.play {
+  flex: 0 1 auto;
+  min-width: 13rem;
+}
+
+.playInner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.playGlyph {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* Pipeline band ------------------------------------------------------------ */
+.pipe {
+  padding-block: var(--space-6);
+  border-block: 1px solid var(--color-border);
+}
+
+.caption {
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+@container (max-width: 559px) {
+  .play {
+    flex-basis: 100%;
+  }
+}
+
+@container (min-width: 900px) {
+  .figure {
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    column-gap: var(--grid-gutter);
+  }
+
+  .intro {
+    grid-column: 1 / span 8;
+    grid-row: 1;
+  }
+
+  .controls {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .pipe {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+
+  .log {
+    grid-column: 1 / span 7;
+    grid-row: 4;
+  }
+
+  .summary {
+    grid-column: 9 / span 4;
+    grid-row: 4;
+  }
+
+  .caption {
+    grid-column: 1 / -1;
+    grid-row: 5;
+  }
+}

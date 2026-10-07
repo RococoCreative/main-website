@@ -1,0 +1,31 @@
+.statement {
+  /* --p: fill progress 0..1, written on scroll. Defaults to 1 (fully set). */
+  --p: 1;
+  /* Width of the soft leading edge, in words. */
+  --soft: 4;
+
+  max-width: 30ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1rem + 3vw, 3.25rem);
+  font-weight: var(--weight-light);
+  line-height: 1.16;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-heading);
+  text-wrap: pretty;
+}
+
+/* Fallback: browsers without color-mix() show the final, full-color state. */
+.word {
+  color: var(--color-heading);
+}
+
+@supports (color: color-mix(in srgb, white 50%, black)) {
+  .word {
+    color: color-mix(
+      in srgb,
+      var(--color-heading) calc(clamp(0, (var(--p) * (var(--n) + var(--soft)) - var(--i)) / var(--soft), 1) * 100%),
+      var(--color-text-muted)
+    );
+  }
+}
