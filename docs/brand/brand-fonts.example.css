@@ -1,0 +1,60 @@
+/* =============================================================================
+   Licensed brand faces: Goldenbook (display) + Halcom (sans)
+   -----------------------------------------------------------------------------
+   Goldenbook and Halcom are commercial fonts licensed to Rococo Creative. This
+   repository is public, so the font files are NOT committed. To use them:
+
+   1. Upload these WOFF2 files (from the Claude Design System > fonts/woff2
+      folder) to a public location you control, e.g. a Supabase Storage bucket
+      named "brand-fonts" (public read), or any CDN your web license permits:
+        Goldenbook-Light.woff2, Goldenbook-Regular.woff2,
+        Halcom-Light.woff2, Halcom-Regular.woff2, Halcom-Medium.woff2
+   2. Copy this file next to them as brand-fonts.css and replace FONT_BASE_URL.
+   3. Set NEXT_PUBLIC_BRAND_FONTS_URL to the public URL of brand-fonts.css in
+      Vercel (Production + Preview) and redeploy.
+
+   The token stacks in src/styles/tokens.css list "Goldenbook" and "Halcom"
+   first, so the licensed faces take over automatically once this stylesheet
+   loads. Without it, Cormorant Garamond and Instrument Sans are used.
+   Only the weights the site uses are declared, to keep downloads small.
+   ============================================================================= */
+
+@font-face {
+  font-family: "Goldenbook";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("FONT_BASE_URL/Goldenbook-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Goldenbook";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("FONT_BASE_URL/Goldenbook-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Halcom";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("FONT_BASE_URL/Halcom-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Halcom";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("FONT_BASE_URL/Halcom-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Halcom";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("FONT_BASE_URL/Halcom-Medium.woff2") format("woff2");
+}
