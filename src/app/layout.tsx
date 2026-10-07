@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 
+// Global base styles load first so component CSS Modules can override them.
+import "./globals.css";
+
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { JsonLd, organizationJsonLd } from "@/lib/seo";
@@ -7,7 +10,6 @@ import { brandFontsUrl, isIndexable, siteUrl } from "@/lib/env";
 import { site } from "@/lib/site";
 
 import { fontVariables } from "./fonts";
-import "./globals.css";
 
 /**
  * Guardrail: every route must prerender to static HTML (content refreshes via

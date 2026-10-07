@@ -170,7 +170,6 @@ hr {
   outline: 2px solid var(--color-primary);
   outline-offset: 3px;
   box-shadow: var(--focus-ring);
-  border-radius: var(--radius-sm);
 }
 
 [data-theme] :focus-visible {
