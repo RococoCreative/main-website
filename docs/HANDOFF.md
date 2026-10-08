@@ -1,6 +1,6 @@
 # Session handoff: Rococo Creative website
 
-Last updated 2026-10-08. Read `CLAUDE.md` (project rules) and `README.md` (setup) first. This file covers state that is not in either.
+Last updated 2026-10-08. Read `CLAUDE.md` (project rules) and `README.md` (setup) first. This file covers state that is not in either. Full Supabase, Vercel, and codebase audit: `docs/AUDIT.md`.
 
 ## Where things stand
 
