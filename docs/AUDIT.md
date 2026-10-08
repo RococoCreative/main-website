@@ -72,10 +72,10 @@ Severity key: **High** = fix before launch or before redesign work starts. **Med
 | Sev | Finding | Fix |
 | --- | --- | --- |
 | High | **Free plan pauses after a week of low activity.** The site is static, so the DB sees little traffic. A paused project fails every deploy, breaks revalidation, and rejects leads. | Upgrade to Pro before launch, or add a daily keep-alive. |
-| Medium | Security advisor: `public.rls_auto_enable()` is SECURITY DEFINER and callable by anon/authenticated via RPC. | Apply `20261008000000_tighten_grants.sql`. |
-| Medium | anon/authenticated hold INSERT/UPDATE/DELETE/TRUNCATE on content tables (Supabase defaults). RLS blocks writes today. | Same migration. |
+| Done | Security advisor: `public.rls_auto_enable()` was callable by anon/authenticated via RPC. | Fixed: `tighten_grants` applied 2026-10-08. Advisor clean. |
+| Done | anon/authenticated held write grants on content tables. | Fixed: SELECT only now. |
 | Medium | Seeded TODO case studies and testimonials are `status = 'published'`. | Set them to `draft` until real content exists (see section 5). |
-| Low | Unindexed FK `testimonials.case_study_id`. | Same migration. |
+| Done | Unindexed FK `testimonials.case_study_id`. | Fixed: index added. |
 | Low | Migration history empty. | If adopting the CLI later: `supabase migration repair --status applied 20261007000000`. |
 | Low | `database.types.ts` is hand-maintained. | Generate with `supabase gen types` and check in CI. |
 
