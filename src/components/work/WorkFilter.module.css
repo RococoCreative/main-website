@@ -125,7 +125,7 @@
   color: var(--color-primary);
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   text-decoration: underline;
@@ -213,7 +213,7 @@
 .noneTitle {
   font-family: var(--font-sans);
   font-size: var(--text-h4);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   color: var(--color-heading);
 }
 

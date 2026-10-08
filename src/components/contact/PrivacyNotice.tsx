@@ -63,6 +63,11 @@ const sections: NoticeSection[] = [
           Like most websites, our hosting provider automatically processes technical information such as IP addresses,
           browser type, and the pages requested, so it can deliver the site and protect it from abuse.
         </p>
+        <p>
+          Our typefaces are delivered by Adobe Fonts. To display them, your browser requests the font files from
+          Adobe&apos;s servers, which receive the same kind of technical information, such as your IP address and this
+          site&apos;s address. Adobe also counts font use for licensing.
+        </p>
       </>
     ),
   },

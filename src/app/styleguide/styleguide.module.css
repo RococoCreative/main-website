@@ -85,13 +85,15 @@
 .typeH2,
 .typeH3 {
   font-family: var(--font-sans);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-snug);
   color: var(--color-heading);
 }
 
 .typeH2 {
   font-size: var(--text-h2-fluid);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-tight);
 }
 
 .typeH3 {
@@ -117,7 +119,7 @@
 .typeLabel {
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-primary);

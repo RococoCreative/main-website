@@ -309,6 +309,7 @@
 .startIndex {
   font-family: var(--font-mono);
   font-size: var(--text-body);
+  font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-eyebrow);
   color: var(--color-text-muted);
 }

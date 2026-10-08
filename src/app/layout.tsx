@@ -6,10 +6,10 @@ import "./globals.css";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { JsonLd, organizationJsonLd } from "@/lib/seo";
-import { brandFontsUrl, isIndexable, siteUrl } from "@/lib/env";
+import { isIndexable, siteUrl } from "@/lib/env";
 import { site } from "@/lib/site";
 
-import { fontVariables } from "./fonts";
+import { adobeFontsKit, fontVariables } from "./fonts";
 
 /**
  * Guardrail: every route must prerender to static HTML (content refreshes via
@@ -51,8 +51,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={fontVariables} data-scroll-behavior="smooth">
       <head>
-        {/* Optional licensed Goldenbook + Halcom faces. See README > Brand fonts. */}
-        {brandFontsUrl ? <link rel="stylesheet" href={brandFontsUrl} /> : null}
+        {/* Goldenbook + Halcom from Adobe Fonts. The preconnect opens the CORS
+            connection font files need while the kit stylesheet downloads. */}
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
+        <link rel="stylesheet" href={adobeFontsKit} />
       </head>
       <body>
         <a href="#main" className="skip-link">

@@ -202,7 +202,7 @@ Search the repository for `TODO` and for `<Placeholder` to find every open item 
 - [ ] **Webhooks:** one per table (`posts`, `case_studies`, `testimonials`) pointing at `/api/revalidate`, with `REVALIDATE_SECRET` set in Vercel. Edit a post and confirm the change appears within seconds.
 - [ ] **Email alerts (optional):** `RESEND_API_KEY`, `CONTACT_NOTIFICATION_TO`, and `CONTACT_NOTIFICATION_FROM` on a verified domain. Send a test inquiry.
 - [ ] **Vercel:** environment variables for Production and Preview, domain, and `NEXT_PUBLIC_SITE_URL`.
-- [ ] **Brand fonts (optional):** host the licensed Goldenbook and Halcom files and set `NEXT_PUBLIC_BRAND_FONTS_URL`.
+- [ ] **Brand fonts:** in the Adobe Fonts web project, confirm Goldenbook Light and Halcom Light, Regular, Medium, and Bold are included and font display is `swap` (README > Brand fonts).
 
 **Final sweep**
 

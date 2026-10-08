@@ -97,8 +97,10 @@
   color: var(--color-text-muted);
 }
 
+/* H3-sized section titles take H3's Regular weight: Light is for 24px and up. */
 .sectionTitle {
   font-size: var(--text-h3-fluid);
+  font-weight: var(--weight-regular);
 }
 
 /* Reading column: 16px body, 1.65 leading, flush left. */

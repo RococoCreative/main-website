@@ -1,36 +1,20 @@
-import { Cormorant_Garamond, Fragment_Mono, Instrument_Sans, Inter } from "next/font/google";
+import { Fragment_Mono } from "next/font/google";
 
 /**
- * Self-hosted at build time by next/font (no runtime requests to Google).
- * These are the brand system's documented fallbacks for the licensed faces:
- *   Goldenbook -> Cormorant Garamond (display serif, Light 300)
- *   Halcom     -> Instrument Sans   (headings, UI, CTAs)
- * Inter (body) and Fragment Mono (eyebrows) are the canonical faces.
- * The CSS variables are consumed by the font stacks in src/styles/tokens.css.
+ * Brand typefaces.
+ *
+ * Goldenbook (display serif) and Halcom (headings and body) are licensed
+ * through Adobe Fonts and served from Adobe's CDN by this web project kit.
+ * No font files for them live in this repository: it is public, and the
+ * license does not allow redistribution. The stacks in src/styles/tokens.css
+ * name the families.
  */
+export const adobeFontsKit = "https://use.typekit.net/jhb8wfa.css";
 
-export const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  // Light 300 carries every display style (400 shares the same variable file).
-  // No italic: it would be preloaded on every page without being used.
-  weight: ["300", "400"],
-  style: "normal",
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-export const instrumentSans = Instrument_Sans({
-  subsets: ["latin"],
-  variable: "--font-instrument",
-  display: "swap",
-});
-
-export const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
+/**
+ * Fragment Mono (bracketed eyebrows) is open source and self-hosted at build
+ * time by next/font, so it needs no runtime request to Google.
+ */
 export const fragmentMono = Fragment_Mono({
   subsets: ["latin"],
   weight: "400",
@@ -38,4 +22,4 @@ export const fragmentMono = Fragment_Mono({
   display: "swap",
 });
 
-export const fontVariables = [cormorant.variable, instrumentSans.variable, inter.variable, fragmentMono.variable].join(" ");
+export const fontVariables = fragmentMono.variable;

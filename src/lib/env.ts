@@ -38,6 +38,3 @@ export const isIndexable =
   process.env.VERCEL_ENV === undefined
     ? process.env.NODE_ENV === "production"
     : process.env.VERCEL_ENV === "production";
-
-/** Optional: stylesheet URL that declares the licensed Goldenbook + Halcom faces. */
-export const brandFontsUrl = clean(process.env.NEXT_PUBLIC_BRAND_FONTS_URL);

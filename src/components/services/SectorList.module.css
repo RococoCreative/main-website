@@ -25,7 +25,7 @@
 .name {
   grid-row: 1;
   font-size: var(--text-h4);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
 }
 
 .need {

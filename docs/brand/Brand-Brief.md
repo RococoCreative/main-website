@@ -27,7 +27,7 @@ You are producing assets for **Rococo Creative**, a boutique digital agency blen
 - Hero/display → serif: Goldenbook (fallback Cormorant Garamond/Georgia), Light, tight tracking (-0.02em)
 - Headings/UI/CTA → sans: Halcom (fallback Instrument Sans). CTAs UPPERCASE, +0.08em tracking.
 - Eyebrows → mono: Fragment Mono, uppercase, +0.14em, in brackets
-- Body → Inter, 14px min, line-height 1.65
+- Body → Inter, 14px min, line-height 1.65 (website: Halcom Regular, per Rococo direction 2026-10-08)
 
 **Layout & feel:** generous whitespace, 8pt spacing, subtle radii (8–16px), restrained warm-tinted shadows, calm motion. Luxury doesn't shout — prefer space and hairline borders over heavy effects.
 

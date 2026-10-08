@@ -62,14 +62,14 @@
   --color-warning-fg: var(--rc-warning-text);
 
   /* 4. TYPOGRAPHY ------------------------------------------------------------
-     Canonical: Goldenbook (display) + Halcom (sans) + Inter (body).
-     "Goldenbook" and "Halcom" resolve only when the licensed brand-font
-     stylesheet is loaded (see README > Brand fonts). Otherwise the stack falls
-     through to the self-hosted Google equivalents set by next/font in layout.tsx. */
-  --font-display: "Goldenbook", var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Halcom", var(--font-instrument), "Instrument Sans", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", system-ui, sans-serif;
-  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+     Goldenbook (display) and Halcom (headings and body) are served by the
+     Adobe Fonts kit linked in layout.tsx. Family names match the kit's
+     lowercase names ("goldenbook", "halcom"): CSS compares them without case.
+     On the web, body copy is Halcom (the brand table lists Inter). System
+     faces stand in while the kit loads, or if a network blocks Adobe. */
+  --font-display: "Goldenbook", Georgia, "Times New Roman", serif;
+  --font-sans: "Halcom", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-body: var(--font-sans);
   --font-mono: var(--font-fragment), "Fragment Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --text-h1: 48px;
@@ -158,6 +158,14 @@
   /* Hero statement on the home page only. Larger than H1 by design. */
   --text-display: clamp(2.75rem, 1.5rem + 5.2vw, 6rem);
   --text-numeral: clamp(3rem, 2rem + 4vw, 5.5rem);
+
+  /* Weight policy: as light as legibility allows. Light (300) only at 24px and
+     up, WCAG's large-text size: Goldenbook display and Halcom H2. Body, H3 to
+     H6, and uppercase labels are Regular (400). Medium (500) stays where weight
+     is the hierarchy cue at body size or smaller (data values, chips, field
+     labels). Labels were Medium in the brand table; set this back to
+     var(--weight-medium) to restore that. */
+  --weight-label: var(--weight-regular);
 
   /* Swiss grid */
   --grid-columns: 12;

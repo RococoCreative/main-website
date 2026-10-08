@@ -359,7 +359,7 @@
   margin-top: var(--space-2);
   font-family: var(--font-sans);
   font-size: var(--text-h4);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   line-height: var(--leading-snug);
   color: var(--color-heading);
 }
@@ -384,7 +384,7 @@
   color: var(--color-link);
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   text-decoration: underline;

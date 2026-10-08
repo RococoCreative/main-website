@@ -23,6 +23,8 @@ Brand sources of truth: `docs/brand/Brand-Brief.md`, `docs/brand/Rococo-Design-S
 - Color balance about 60% paper/neutral, 30% forest, 10% gold. Never gold text on light grounds; text on gold is Ink; white text on forest only.
 - **Never hardcode hex values in components.** Use tokens (`var(--color-*)`, `var(--rc-*)`, `var(--space-*)`...). Dark sections use `data-theme="forest"` or `"dark"` (via `<Section theme>`), light alternates via `surface`.
 - Body copy 16px (`--text-body-lg`), never below 14px for reading text; line-height 1.65.
+- Type: Goldenbook (`--font-display`) and Halcom (`--font-sans`, also body) come from the Adobe Fonts kit (`adobeFontsKit` in `src/app/fonts.ts`). **Never commit font files**: the repo is public. On the web this supersedes the brand table's Inter body and Medium H2/H3/labels.
+- Weights as light as legibility allows: Light 300 only at 24px and up (Goldenbook H1 and display lines, Halcom H2); Regular 400 for body, lead, H3 to H6, and uppercase labels/CTAs (`--weight-label`); Medium 500 only where weight is the hierarchy cue at body size or smaller. Never Light below 24px.
 - Radii 8 to 16px, restrained warm shadows, hairline borders over heavy effects.
 
 ## Accessibility (WCAG 2.1 AA)

@@ -120,6 +120,8 @@ A painterly gold damask ornament paired with the **ROCOCO** wordmark (Goldenbook
 
 Canonical families: **Goldenbook** (display serif) · **Halcom** (sans) · **Inter** (body). The real fonts are now in hand — hosted via `fonts.css` (optimized WOFF2 in `fonts/woff2/`), so the serif hero renders for real. Fallback stacks in `tokens.css` still degrade gracefully. Weights available: **Goldenbook** Light 300 · Regular 400 · ExtraBold 800 · Black 900 (+ Heavy); **Halcom** Thin 100 · Light 300 · Book/Regular 400 · Medium 500 · Bold 700 · ExtraBold 800 · Black 900 (+ italics).
 
+> **Website update (2026-10-08, Rococo direction):** the website sets body copy in **Halcom Regular**, not Inter, and leans lighter: Goldenbook Light for H1 and display, Halcom Light for H2, Halcom Regular for H3 to H6 and uppercase labels/CTAs. Light is used only at 24px and up. Goldenbook and Halcom are served by the Adobe Fonts kit (see the repo README, Brand fonts). The table below is the original brand spec.
+
 | Style | Font | Size | Weight | Tracking | Notes |
 |-------|------|------|--------|----------|-------|
 | **H1 · Hero** | Goldenbook Light | 48px | 300 | -0.02em | Display serif; use `--text-h1-fluid` on large screens |

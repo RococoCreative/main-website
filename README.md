@@ -18,7 +18,7 @@ Built with **Next.js 16** (App Router, TypeScript), **Supabase** (content and le
 8. [Interactive storytelling components](#interactive-storytelling-components)
 9. [Content, caching, and revalidation](#content-caching-and-revalidation)
 10. [Contact form](#contact-form)
-11. [Brand fonts (Goldenbook + Halcom)](#brand-fonts-goldenbook--halcom)
+11. [Brand fonts (Adobe Fonts)](#brand-fonts-adobe-fonts)
 12. [Accessibility and performance](#accessibility-and-performance)
 13. [Pre-launch checklist](#pre-launch-checklist)
 14. [Troubleshooting](#troubleshooting)
@@ -36,7 +36,7 @@ Built with **Next.js 16** (App Router, TypeScript), **Supabase** (content and le
 | Styling | CSS Modules + CSS custom properties (`src/styles/tokens.css`) | Components read tokens directly. No runtime CSS-in-JS, no utility framework. |
 | Motion | Hand-written hooks + CSS scroll-driven animations | Zero animation dependencies. Every effect respects `prefers-reduced-motion` and degrades to a complete, readable state. |
 | Markdown | `react-markdown` + `remark-gfm`, server-rendered | Safe by default (raw HTML ignored), no client JavaScript. |
-| Typography | Cormorant Garamond, Instrument Sans, Inter, Fragment Mono via `next/font` | The brand system's documented fallbacks, self-hosted at build. Licensed Goldenbook/Halcom can be switched on by URL (see below). |
+| Typography | Goldenbook + Halcom from Adobe Fonts; Fragment Mono via `next/font` | Licensed brand faces served from Adobe's CDN, so no font files sit in this public repository. The open-source mono is self-hosted at build. |
 | Email | Optional Resend notification via REST, sent with `after()` | Leads are always stored in Supabase; email is an extra alert that never slows the response. |
 
 Runtime dependencies: `next`, `react`, `react-dom`, `@supabase/supabase-js`, `react-markdown`, `remark-gfm`, `server-only`.
@@ -80,7 +80,6 @@ Copy `.env.local.example` to `.env.local` for local work. On Vercel, add the sam
 | `RESEND_API_KEY` | Optional | Server | Enables email alerts for new inquiries. |
 | `CONTACT_NOTIFICATION_TO` | With Resend | Server | Inbox that receives alerts. |
 | `CONTACT_NOTIFICATION_FROM` | With Resend | Server | Sender on a domain verified in Resend, e.g. `Rococo Website <website@rocococreative.io>`. |
-| `NEXT_PUBLIC_BRAND_FONTS_URL` | Optional | Public | URL of a stylesheet declaring the licensed Goldenbook + Halcom faces. |
 
 `NEXT_PUBLIC_*` values are inlined at build time: redeploy after changing them.
 
@@ -283,17 +282,28 @@ Deep links: `/contact?intent=proposal`, `/contact?intent=clarity`, and `/contact
 
 ---
 
-## Brand fonts (Goldenbook + Halcom)
+## Brand fonts (Adobe Fonts)
 
-Goldenbook and Halcom are commercial fonts licensed for Rococo's use. **This repository is public, so the font files are not committed.** The site ships with the brand system's documented fallbacks (Cormorant Garamond for Goldenbook, Instrument Sans for Halcom), self-hosted through `next/font`.
+Goldenbook and Halcom are commercial fonts. They are served by Rococo's Adobe Fonts web project (kit `jhb8wfa`), linked once in `src/app/layout.tsx` through `adobeFontsKit` in `src/app/fonts.ts`. **No font files for them are committed: this repository is public.** Fragment Mono (eyebrows) is open source and self-hosted by `next/font`.
 
-To switch on the licensed faces without committing them:
+| Role | Face | Weight |
+| --- | --- | --- |
+| H1, hero statement, pull-quotes, display lines | Goldenbook | Light 300 |
+| H2 | Halcom | Light 300 (28px and up) |
+| H3 to H6, body, lead, uppercase labels and CTAs | Halcom | Regular 400 |
+| Emphasis at body size and smaller (data values, chips, field labels) | Halcom | Medium 500 |
+| `strong` in articles | Halcom | Bold 700 |
 
-1. Upload the WOFF2 files (Goldenbook Light/Regular, Halcom Light/Regular/Medium) to a public location you control, such as a public Supabase Storage bucket.
-2. Copy `docs/brand/brand-fonts.example.css` next to them as `brand-fonts.css` and set the base URL.
-3. Set `NEXT_PUBLIC_BRAND_FONTS_URL` to that stylesheet's URL and redeploy.
+Weight policy: as light as legibility allows. Light appears only at 24px and up (WCAG's large-text size), and body copy never goes below Regular. `--weight-label` in `src/styles/tokens.css` sets the uppercase label weight in one place.
 
-The token font stacks list `"Goldenbook"` and `"Halcom"` first, so they take over as soon as the stylesheet loads. If the repository is made private later, you can instead self-host them with `next/font/local`.
+**Kit checklist (fonts.adobe.com > Web Projects):**
+
+- The project includes Goldenbook Light and Halcom Light, Regular, Medium, and Bold. Add Halcom Italic if articles use emphasis. A missing weight falls back to the nearest one in the kit.
+- The CSS family names shown in the project are `goldenbook` and `halcom`. If Adobe lists different names, update `--font-display` and `--font-sans` in `src/styles/tokens.css`.
+- Set the project's font display to `swap` so text shows in a system face while the kit loads, instead of staying invisible.
+- Kit changes publish from Adobe's side: no redeploy needed.
+
+Open Graph images are drawn by `next/og`, which needs font files on disk, so they use the open-license stand-ins in `src/assets/og` (Cormorant Garamond and Instrument Sans).
 
 ---
 
@@ -320,7 +330,7 @@ Search the codebase for `TODO` to find every item. The main categories:
 - [ ] Typical phase durations and FAQ policies (pricing, AI usage, contract terms).
 - [ ] Privacy notice reviewed by counsel; "Last updated" date.
 - [ ] Review the three starter articles.
-- [ ] Optional: host licensed Goldenbook/Halcom and set `NEXT_PUBLIC_BRAND_FONTS_URL`.
+- [ ] Adobe Fonts web project: weights, family names, and font display checked (see [Brand fonts](#brand-fonts-adobe-fonts)).
 - [ ] Supabase: migration applied, seed reviewed, webhooks configured, `REVALIDATE_SECRET` set.
 - [ ] Vercel: environment variables, domain, `NEXT_PUBLIC_SITE_URL`.
 

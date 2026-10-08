@@ -45,7 +45,7 @@
 .author {
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text);

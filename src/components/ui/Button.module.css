@@ -19,7 +19,7 @@
   color: var(--btn-fg);
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-label);
   letter-spacing: var(--tracking-label);
   line-height: 1.2;
   text-transform: uppercase;

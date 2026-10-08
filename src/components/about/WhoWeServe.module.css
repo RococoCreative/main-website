@@ -40,7 +40,7 @@
 .name {
   margin-top: auto;
   font-size: var(--text-h4);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
 }
 
 .focus {
@@ -57,7 +57,7 @@
 .inviteText {
   font-family: var(--font-display);
   font-weight: var(--weight-light);
-  font-size: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  font-size: clamp(1.5rem, 1.3rem + 0.7vw, 1.875rem);
   line-height: 1.2;
   letter-spacing: var(--tracking-tight);
   color: var(--color-heading);
@@ -72,7 +72,7 @@
   min-height: 44px;
   font-family: var(--font-sans);
   font-size: var(--text-label);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   text-decoration: none;

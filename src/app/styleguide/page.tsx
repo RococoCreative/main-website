@@ -48,17 +48,17 @@ const colors = [
 const typeScale = [
   { label: "Display · hero", className: styles.typeDisplay, sample: "Built on a sound foundation." },
   { label: "H1 · Goldenbook Light", className: styles.typeH1, sample: "Marketing built the way you build." },
-  { label: "H2 · Halcom Medium", className: styles.typeH2, sample: "Strategy before style." },
-  { label: "H3 · Halcom Medium", className: styles.typeH3, sample: "Know where you win." },
+  { label: "H2 · Halcom Light", className: styles.typeH2, sample: "Strategy before style." },
+  { label: "H3 · Halcom Regular", className: styles.typeH3, sample: "Know where you win." },
   { label: "H4 · Halcom Regular", className: styles.typeH4, sample: "A clear plan for the work you want." },
-  { label: "Lead · Inter", className: styles.typeLead, sample: "Plain, assured sentences about outcomes." },
+  { label: "Lead · Halcom Regular", className: styles.typeLead, sample: "Plain, assured sentences about outcomes." },
   {
-    label: "Body · Inter 16/1.65",
+    label: "Body · Halcom Regular 16/1.65",
     className: styles.typeBody,
     sample:
       "Owners hire the builder they trust. Your marketing should earn that trust before the first meeting and keep the pipeline full without adding headcount.",
   },
-  { label: "Label · Halcom Medium caps", className: styles.typeLabel, sample: "Discuss a project" },
+  { label: "Label · Halcom Regular caps", className: styles.typeLabel, sample: "Discuss a project" },
 ];
 
 const spaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
