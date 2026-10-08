@@ -63,12 +63,14 @@
 
   /* 4. TYPOGRAPHY ------------------------------------------------------------
      Goldenbook (display) and Halcom (headings and body) are served by the
-     Adobe Fonts kit linked in layout.tsx. Family names match the kit's
-     lowercase names ("goldenbook", "halcom"): CSS compares them without case.
-     On the web, body copy is Halcom (the brand table lists Inter). System
-     faces stand in while the kit loads, or if a network blocks Adobe. */
-  --font-display: "Goldenbook", Georgia, "Times New Roman", serif;
-  --font-sans: "Halcom", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+     Adobe Fonts kit linked in layout.tsx. Family names match the kit's CSS
+     names exactly: "goldenbook" and "halcom-variable" (one variable face,
+     weights 100 to 900). "halcom" stays second in case the kit switches to
+     the static family. On the web, body copy is Halcom (the brand table lists
+     Inter). System faces stand in while the kit loads, or if a network
+     blocks Adobe. */
+  --font-display: "goldenbook", Georgia, "Times New Roman", serif;
+  --font-sans: "halcom-variable", "halcom", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --font-body: var(--font-sans);
   --font-mono: var(--font-fragment), "Fragment Mono", ui-monospace, "SF Mono", Menlo, monospace;
 

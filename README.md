@@ -93,9 +93,9 @@ Create a project at [supabase.com](https://supabase.com). From **Project Setting
 
 ### 2. Apply the schema
 
-The schema lives in `supabase/migrations/20261007000000_init.sql`. Choose one:
+The schema lives in `supabase/migrations/`: `20261007000000_init.sql`, then `20261008000000_tighten_grants.sql`. Choose one:
 
-- **SQL editor (simplest):** open **SQL Editor**, paste the migration, run it.
+- **SQL editor (simplest):** open **SQL Editor**, paste each migration in filename order, run it.
 - **Supabase CLI:**
   ```bash
   npx supabase login
@@ -299,7 +299,7 @@ Weight policy: as light as legibility allows. Light appears only at 24px and up 
 **Kit checklist (fonts.adobe.com > Web Projects):**
 
 - The project includes Goldenbook Light and Halcom Light, Regular, Medium, and Bold. Add Halcom Italic if articles use emphasis. A missing weight falls back to the nearest one in the kit.
-- The CSS family names shown in the project are `goldenbook` and `halcom`. If Adobe lists different names, update `--font-display` and `--font-sans` in `src/styles/tokens.css`.
+- As of 2026-10-08 the kit serves Goldenbook Light, Regular and SemiBold as `goldenbook`, and Halcom Variable (weights 100 to 900, roman only) as `halcom-variable`. The family names in `--font-display` and `--font-sans` in `src/styles/tokens.css` must match these CSS names; check them at `https://use.typekit.net/jhb8wfa.css` after any change to the web project.
 - Set the project's font display to `swap` so text shows in a system face while the kit loads, instead of staying invisible.
 - Kit changes publish from Adobe's side: no redeploy needed.
 

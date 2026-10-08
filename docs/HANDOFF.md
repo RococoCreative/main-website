@@ -8,9 +8,9 @@ Last updated 2026-10-08. Read `CLAUDE.md` (project rules) and `README.md` (setup
 | --- | --- |
 | Code | Complete and pushed. Branch `claude/loving-brown-7cakyz` is the only remote branch (no `main` yet). |
 | Local checks | `npm run typecheck`, `npm run lint`, `npm run build` all pass. Fallback-content build verified with axe (0 violations), overflow, heading and copy checks across all routes. |
-| Brand fonts | Goldenbook + Halcom load from Adobe Fonts kit `jhb8wfa` (`adobeFontsKit` in `src/app/fonts.ts`). Not yet seen rendering: `use.typekit.net` is blocked in the cloud sandbox. |
-| Vercel | Project `main-website` created by Austin in team `rocococreative` (`team_hEsbOjSa5AisKpNmIyKVz7WD`), importing branch `claude/loving-brown-7cakyz`. First deploy failed (see below). |
-| Supabase | Website project `qaeulvqapuqsnilcvhwf` ("Rococo Creative - Main Website") in org **Rococo Creative Internal** (Free plan). Austin ran `supabase/migrations/20261007000000_init.sql` and `supabase/seed.sql` there. Not yet verified by Claude. |
+| Brand fonts | Kit `jhb8wfa` checked 2026-10-08 (fetched through Firecrawl): it serves `goldenbook` (300, 400, 600) and `halcom-variable` (100 to 900, roman only), all with `font-display: auto`. Tokens previously asked for `"Halcom"`, which matched nothing, so Halcom never rendered; fixed in `src/styles/tokens.css`. Still not seen in a real browser. |
+| Vercel | Project `main-website` in team `rocococreative` (`team_hEsbOjSa5AisKpNmIyKVz7WD`), production tracks `claude/loving-brown-7cakyz`. Deploys READY since the Supabase env fix (`dpl_6Ci1RujF1jAWQNiNdrKqjyxNJZMz`, commit `b4a3694`). Only domain: `main-website-chi-liard.vercel.app`. |
+| Supabase | Project `qaeulvqapuqsnilcvhwf` ("Rococo Creative - Main Website", org **Rococo Creative Internal**, Free plan, `ca-central-1`). Verified 2026-10-08: four tables with RLS on, policies match the init migration, column-level insert grants on `contact_submissions`, `word_count` generated, public `media` bucket, seed rows (3 posts, 3 case studies, 2 testimonials). Edge logs show the Vercel build reading all three content tables with 200s. `20261008000000_tighten_grants.sql` is in the repo but **not yet applied** (awaiting Austin's go-ahead). |
 | Pull request | None opened. Do not open one unless asked. |
 
 ## The failed deploy and its fix
@@ -20,7 +20,7 @@ Last updated 2026-10-08. Read `CLAUDE.md` (project rules) and `README.md` (setup
   - `NEXT_PUBLIC_SUPABASE_URL=https://qaeulvqapuqsnilcvhwf.supabase.co`
   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_liyyaOC2lebnFsWh0RrOdQ_oPezzmJ4` (public by design)
   - `REVALIDATE_SECRET` is already set in Vercel. Its value is not recorded here (public repo); the same value goes in the Supabase webhook header.
-- Outcome of that redeploy is unknown at handoff. Check it first.
+- Resolved: the redeploy with these values succeeded.
 
 How build errors map to causes (every route prerenders, so any Supabase error fails the build):
 
@@ -32,9 +32,9 @@ How build errors map to causes (every route prerenders, so any Supabase error fa
 
 ## Access notes for the next session
 
-- **Supabase connector** previously saw only org **Rococo Creative** (`jmfovfahdznikwcuasfp`, Pro), which holds unrelated projects "Plan Notation" and "Kingdom Estimating Tool". Do not touch those. Austin is reconnecting the connector to include **Rococo Creative Internal**. If `list_projects` now shows `qaeulvqapuqsnilcvhwf`, verify: four tables (`posts`, `case_studies`, `testimonials`, `contact_submissions`), RLS policies and anon grants from the migration, the `word_count` generated column, the public `media` bucket, seeded rows, and `get_advisors`.
+- **Supabase connector** now sees only `qaeulvqapuqsnilcvhwf`. Org **Rococo Creative** (`jmfovfahdznikwcuasfp`) holds unrelated projects "Plan Notation" and "Kingdom Estimating Tool": never touch those.
 - **Vercel connector** works for team `rocococreative`. Do not decrypt env values unless Austin asks. The old `official-website` project (repo `RococoCreative/official-website`) is unrelated to this codebase.
-- **Sandbox network** blocks `use.typekit.net` and `*.supabase.co`. Live checks must go through the connectors or a deployed URL.
+- **Sandbox network** blocks `use.typekit.net` and `*.supabase.co`. Live checks go through the connectors: Vercel `web_fetch_vercel_url` for deployed pages, Supabase `query_logs`/`execute_sql`, Firecrawl `firecrawl_scrape` for the kit CSS.
 
 ## Vercel env rules
 
@@ -45,9 +45,9 @@ How build errors map to causes (every route prerenders, so any Supabase error fa
 
 ## Open items, in order
 
-1. Confirm the redeploy with the corrected Supabase values succeeds; if not, diagnose from the table above.
-2. Verify the Supabase schema once the connector can see `qaeulvqapuqsnilcvhwf`.
-3. Check Goldenbook and Halcom render on the deployed site; confirm the Adobe Fonts web project includes Goldenbook Light and Halcom Light, Regular, Medium, Bold, with font display `swap` (README > Brand fonts).
+1. Apply `supabase/migrations/20261008000000_tighten_grants.sql` (Austin approves first). Clears both security advisor warnings (`rls_auto_enable` SECURITY DEFINER exposed to anon/authenticated) and the unindexed-FK notice, and drops the default write grants anon/authenticated hold on content tables. RLS already blocked those writes through the API.
+2. Adobe Fonts web project: set font display to `swap` (currently `auto`, so text can stay invisible while the kit loads). Optional: add Halcom Variable Italic if articles use `em`; without it the browser synthesizes an oblique.
+3. Confirm Goldenbook and Halcom render in a real browser on the deployed site (check headings and body in DevTools > Computed > Rendered Fonts).
 4. Attach `rocococreative.io` / `www` to the Vercel project, then set `NEXT_PUBLIC_SITE_URL` and redeploy.
 5. Create three Supabase Database Webhooks (`posts`, `case_studies`, `testimonials`; insert/update/delete) to `https://<domain>/api/revalidate` with header `x-revalidate-secret`. Use the custom domain: `*.vercel.app` URLs may sit behind Deployment Protection.
 6. Decide on a `main` branch (Vercel production currently tracks `claude/loving-brown-7cakyz`).
